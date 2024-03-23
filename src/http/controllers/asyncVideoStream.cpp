@@ -1,8 +1,5 @@
 #include "src/http/controllers/asyncVideoStream.hpp"
 
-#include <drogon/HttpAppFramework.h>
-#include <drogon/drogon.h>
-
 
 cv::VideoCapture asyncVideoStream::cap_;
 
@@ -28,6 +25,7 @@ void asyncVideoStream::startVideoStream(const HttpRequestPtr &req, std::function
 
 void asyncVideoStream::stopVideoStream(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback) const
 {
+
     if (isOpened()) {
         cap_.release();
     }

@@ -36,7 +36,10 @@ file(GLOB COMMON_SRC "${PROJECT_SOURCE_DIR}/src/common/*.cpp")
 
 # http 源文件
 file(GLOB HTTP_SRC "${PROJECT_SOURCE_DIR}/src/http/controllers/*.cpp"
-	"${PROJECT_SOURCE_DIR}/src/http/models/*.cpp")
+	"${PROJECT_SOURCE_DIR}/src/http/models/*.cpp"
+	"${PROJECT_SOURCE_DIR}/src/http/plugins/*.cpp"
+	"${PROJECT_SOURCE_DIR}/src/http/advice/*.cpp"
+)
 
 # serial 源文件
 file(GLOB SERIAL_SRC "${PROJECT_SOURCE_DIR}/src/serial/*.cpp")

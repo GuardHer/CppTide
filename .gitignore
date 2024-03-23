@@ -4,8 +4,8 @@
 ### C ###
 # Prerequisites
 build/
-bin/
-lib/
+Debug/
+uploads/
 
 *.d
 
