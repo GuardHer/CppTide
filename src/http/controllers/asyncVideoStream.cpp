@@ -6,6 +6,7 @@
 
 cv::VideoCapture asyncVideoStream::cap_;
 
+
 void asyncVideoStream::startVideoStream(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback) const
 {
     if (!isOpened()) {
