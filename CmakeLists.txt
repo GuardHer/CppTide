@@ -1,0 +1,65 @@
+cmake_minimum_required(VERSION 3.10)
+SET(CMAKE_TOOLCHAIN_FILE "E:\\Code\\vcpkg\\vcpkg-master\\scripts\\buildsystems\\vcpkg.cmake")
+
+project(main)
+
+# 设置编译选项
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -ldl -Wno-dev")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+add_definitions(-DBOOST_BIND_GLOBAL_PLACEHOLDERS) # 解决boost::bind的问题
+
+if(MSVC)
+	# 添加编译选项, 设置 输入代码的编码格式为 utf-8
+	add_compile_options("/source-charset:utf-8")
+endif()
+
+find_package(fmt REQUIRED)
+find_package(Drogon CONFIG REQUIRED)
+find_package(Boost REQUIRED)
+
+# find_package(Boost REQUIRED COMPONENTS program_options system filesystem)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories("E:\\Code\\vcpkg\\vcpkg-master\\installed\\x64-windows\\include")
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+set(Opencv_Libs
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/opencv/opencv_world455d.lib
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/opencv/opencv_img_hash455d.lib
+)
+set(Onnxruntime_Libs
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/onnxruntime/onnxruntime.lib
+)
+
+# common 源文件
+file(GLOB COMMON_SRC "${PROJECT_SOURCE_DIR}/src/common/*.cpp")
+
+# http 源文件
+file(GLOB HTTP_SRC "${PROJECT_SOURCE_DIR}/src/http/controllers/*.cpp"
+	"${PROJECT_SOURCE_DIR}/src/http/models/*.cpp")
+
+# serial 源文件
+file(GLOB SERIAL_SRC "${PROJECT_SOURCE_DIR}/src/serial/*.cpp")
+
+# yolov5 源文件
+file(GLOB YOLOV5_SRC "${PROJECT_SOURCE_DIR}/src/v5lite/*.cpp")
+
+# 源文件
+set(SRC
+	${HTTP_SRC}
+	${SERIAL_SRC}
+	${YOLOV5_SRC}
+	${COMMON_SRC}
+)
+
+# libs
+set(LIBS
+	${Opencv_Libs}
+	${Onnxruntime_Libs}
+)
+
+add_executable(main ${SRC} main.cpp)
+target_link_libraries(main PRIVATE fmt::fmt)
+target_link_libraries(main PRIVATE Drogon::Drogon)
+target_link_libraries(main PRIVATE Boost::boost)
+target_link_libraries(main PRIVATE ${LIBS})
