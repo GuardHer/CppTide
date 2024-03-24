@@ -8,6 +8,9 @@ Debug/
 uploads/
 
 *.d
+*.onnx
+*.pt
+*.names
 
 # Object files
 *.o

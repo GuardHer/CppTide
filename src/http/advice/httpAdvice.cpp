@@ -23,6 +23,7 @@ void HttpAdvice::InitAdvice(int advice)
 
 drogon::HttpResponsePtr HttpAdvice::HandleSyncAdvice(const drogon::HttpRequestPtr &req)
 {
+    LOG_INFO << "HandleSyncAdvice";
     asyncVideoStream::closeCap();
     return drogon::HttpResponsePtr();
 }
@@ -33,8 +34,6 @@ void HttpAdvice::HandleHttpResponseCreationAdvice(const drogon::HttpResponsePtr 
 
 bool HttpAdvice::HandleNewConnectionAdvice(const trantor::InetAddress &peer_addr, const trantor::InetAddress &local_addr)
 {
-    LOG_INFO << "peer addr: " << peer_addr.toIpPort();
-    LOG_INFO << "local addr: " << local_addr.toIpPort();
     return true;
 }
 

@@ -1,43 +1,69 @@
+#pragma once
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
 // #include <cuda_provider_factory.h>
-#include <onnxruntime_cxx_api.h>
+#include <onnxruntime/onnxruntime_cxx_api.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 
+
+namespace YOLO
+{
+
 struct Net_config
 {
-	float confThreshold;				 // Confidence threshold (置信度)
-	std::wstring modelpath;				 // model path
-	std::vector<std::string> classNames; // classNames
+    float confThreshold;// Confidence threshold
+    float nmsThreshold; // Non-maximum suppression threshold
+    float objThreshold; //Object Confidence threshold
+    std::string model_path;
+    std::string classesFile;
 };
+
+
+typedef struct BoxInfo
+{
+    float x1;
+    float y1;
+    float x2;
+    float y2;
+    float score;
+    int label;
+} BoxInfo;
 
 class v5Lite
 {
+
 public:
-	v5Lite(Net_config config);
-	void detect(cv::Mat &frame);
+    v5Lite(Net_config config);
+    void detect(cv::Mat &frame);
 
 private:
-	cv::Mat letter_(cv::Mat &img);
-	void normalize_(const cv::Mat &img);
+    const float anchors[3][6] = { { 10.0, 13.0, 16.0, 30.0, 33.0, 23.0 }, { 30.0, 61.0, 62.0, 45.0, 59.0, 119.0 }, { 116.0, 90.0, 156.0, 198.0, 373.0, 326.0 } };
+    const float stride[3]     = { 8.0, 16.0, 32.0 };
+    int inpWidth;
+    int inpHeight;
+    std::vector<std::string> class_names;
+    int num_class;
+    float confThreshold;
+    float nmsThreshold;
+    float objThreshold;
 
-private:
-	int64_t inpWidth, inpHeight;
-	int maxSide, Padw, Padh;
-	int64_t nout, num_proposal;
-	float ratio;
-	bool has_postprocess;
-	Net_config model_config;
-	Ort::Env env = Ort::Env(ORT_LOGGING_LEVEL_ERROR, "v5Lite");
-	Ort::Session *ort_session = nullptr;
-	Ort::SessionOptions sessionOptions = Ort::SessionOptions();
-	std::vector<float> input_image_;
-	std::vector<char *> input_names;
-	std::vector<char *> output_names;
-	std::vector<std::vector<int64_t>> input_node_dims;	// >=1 outputs
-	std::vector<std::vector<int64_t>> output_node_dims; // >=1 outputs
+    cv::Mat resize_image(cv::Mat srcimg, int *newh, int *neww, int *top, int *left);
+    std::vector<float> input_image_;
+    void normalize_(cv::Mat img);
+    void nms(std::vector<BoxInfo> &input_boxes);
+    const bool keep_ratio              = true;
+    Ort::Env env                       = Ort::Env(ORT_LOGGING_LEVEL_ERROR, "v5Litev5-lite");
+    Ort::Session *ort_session          = nullptr;
+    Ort::SessionOptions sessionOptions = Ort::SessionOptions();
+    std::vector<char *> input_names;
+    std::vector<char *> output_names;
+    std::vector<std::vector<int64_t>> input_node_dims; // >=1 outputs
+    std::vector<std::vector<int64_t>> output_node_dims;// >=1 outputs
 };
+
+}// namespace YOLO

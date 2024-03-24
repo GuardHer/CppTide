@@ -21,31 +21,33 @@ find_package(Boost REQUIRED)
 
 # find_package(Boost REQUIRED COMPONENTS program_options system filesystem)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("E:\\Code\\vcpkg\\vcpkg-master\\installed\\x64-windows\\include")
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 set(Opencv_Libs
 	${CMAKE_CURRENT_SOURCE_DIR}/lib/opencv/opencv_world455d.lib
 	${CMAKE_CURRENT_SOURCE_DIR}/lib/opencv/opencv_img_hash455d.lib
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/opencv/opencv_ts455d.lib
 )
 set(Onnxruntime_Libs
 	${CMAKE_CURRENT_SOURCE_DIR}/lib/onnxruntime/onnxruntime.lib
 )
 
 # common 源文件
-file(GLOB COMMON_SRC "${PROJECT_SOURCE_DIR}/src/common/*.cpp")
+file(GLOB COMMON_SRC "${PROJECT_SOURCE_DIR}/src/common/*.c*")
 
 # http 源文件
-file(GLOB HTTP_SRC "${PROJECT_SOURCE_DIR}/src/http/controllers/*.cpp"
-	"${PROJECT_SOURCE_DIR}/src/http/models/*.cpp"
-	"${PROJECT_SOURCE_DIR}/src/http/plugins/*.cpp"
-	"${PROJECT_SOURCE_DIR}/src/http/advice/*.cpp"
+file(GLOB HTTP_SRC "${PROJECT_SOURCE_DIR}/src/http/controllers/*.c*"
+	"${PROJECT_SOURCE_DIR}/src/http/models/*.c*"
+	"${PROJECT_SOURCE_DIR}/src/http/plugins/*.c*"
+	"${PROJECT_SOURCE_DIR}/src/http/advice/*.c*"
 )
 
 # serial 源文件
-file(GLOB SERIAL_SRC "${PROJECT_SOURCE_DIR}/src/serial/*.cpp")
+file(GLOB SERIAL_SRC "${PROJECT_SOURCE_DIR}/src/serial/*.c*")
 
 # yolov5 源文件
-file(GLOB YOLOV5_SRC "${PROJECT_SOURCE_DIR}/src/v5lite/*.cpp")
+file(GLOB YOLOV5_SRC "${PROJECT_SOURCE_DIR}/src/v5lite/*.c*")
 
 # 源文件
 set(SRC
@@ -62,7 +64,9 @@ set(LIBS
 )
 
 add_executable(main ${SRC} main.cpp)
-target_link_libraries(main PRIVATE fmt::fmt)
 target_link_libraries(main PRIVATE Drogon::Drogon)
 target_link_libraries(main PRIVATE Boost::boost)
 target_link_libraries(main PRIVATE ${LIBS})
+
+# add_executable(testV5Lite ${CMAKE_CURRENT_SOURCE_DIR}/test/v5lite/testV5Lite.cpp)
+# target_link_libraries(testV5Lite PRIVATE ${LIBS})
