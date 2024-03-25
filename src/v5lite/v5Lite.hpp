@@ -11,7 +11,7 @@
 #include <opencv2/opencv.hpp>
 
 
-namespace YOLO
+namespace cpptide::YOLO
 {
 
 struct Net_config
@@ -38,10 +38,17 @@ class v5Lite
 {
 
 public:
+    v5Lite();
     v5Lite(Net_config config);
     void detect(cv::Mat &frame);
 
+    void init(Net_config config);
+
+    bool isInit() const { return is_initialized; }
+
 private:
+    bool is_initialized = false;
+
     const float anchors[3][6] = { { 10.0, 13.0, 16.0, 30.0, 33.0, 23.0 }, { 30.0, 61.0, 62.0, 45.0, 59.0, 119.0 }, { 116.0, 90.0, 156.0, 198.0, 373.0, 326.0 } };
     const float stride[3]     = { 8.0, 16.0, 32.0 };
     int inpWidth;
@@ -66,4 +73,4 @@ private:
     std::vector<std::vector<int64_t>> output_node_dims;// >=1 outputs
 };
 
-}// namespace YOLO
+}// namespace cpptide::YOLO

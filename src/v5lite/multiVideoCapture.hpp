@@ -3,15 +3,21 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+namespace cpptide::YOLO
+{
+
 class MultiVideoCapture
 {
 public:
-    MultiVideoCapture(int camera_num = 2);
+    MultiVideoCapture() {}
+    explicit MultiVideoCapture(int camera_num);
 
     ~MultiVideoCapture();
 
 public:
     cv::VideoCapture &get(int index);
+
+    void init(int camera_num = 2);
 
     void close(int index);
 
@@ -23,10 +29,11 @@ public:
 
     bool isOpened(int index);
 
-private:
-    void init(int camera_num = 2);
+    int getCameraNum() const { return camera_num_; }
 
 private:
     std::unordered_map<int, cv::VideoCapture> cap_map_;
     int camera_num_ { 0 };
 };
+
+}// namespace cpptide::YOLO

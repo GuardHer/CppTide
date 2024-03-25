@@ -4,6 +4,10 @@
 #include <opencv2/imgcodecs.hpp>
 #include <trantor/utils/Logger.h>
 
+namespace cpptide::YOLO
+{
+
+
 MultiVideoCapture::MultiVideoCapture(int camera_num)
     : camera_num_(camera_num)
 {
@@ -18,8 +22,11 @@ MultiVideoCapture::~MultiVideoCapture()
 
 void MultiVideoCapture::init(int camera_num)
 {
-    for (int i = 0; i < camera_num; i++) {
-        cap_map_.insert(std::make_pair(i, cv::VideoCapture()));
+    if (cap_map_.empty()) {
+        for (int i = 0; i < camera_num; i++) {
+            cap_map_.insert(std::make_pair(i, cv::VideoCapture()));
+        }
+        camera_num_ = camera_num;
     }
 }
 
@@ -70,3 +77,5 @@ bool MultiVideoCapture::isOpened(int index)
     }
     return false;
 }
+
+}// namespace cpptide::YOLO

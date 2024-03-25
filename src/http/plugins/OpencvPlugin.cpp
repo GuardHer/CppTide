@@ -9,10 +9,8 @@
 #include <iostream>
 #include <trantor/utils/Logger.h>
 
-namespace YOLO
+namespace cpptide::http::plugin
 {
-
-using namespace drogon;
 
 void OpencvPlugin::initAndStart(const Json::Value &config)
 {
@@ -33,4 +31,4 @@ Json::Value OpencvPlugin::getJsonConfig() const
     return config_json_;
 }
 
-}// namespace YOLO
+}// namespace cpptide::http::plugin

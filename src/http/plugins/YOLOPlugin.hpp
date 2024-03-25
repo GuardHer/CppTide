@@ -9,7 +9,7 @@
 #include "src/v5lite/v5Lite.hpp"
 #include <drogon/plugins/Plugin.h>
 
-namespace YOLO
+namespace cpptide::http::plugin
 {
 
 class YOLOPlugin : public drogon::Plugin<YOLOPlugin>
@@ -24,12 +24,12 @@ public:
     /// It must be implemented by the user.
     void shutdown() override;
 
-    Net_config getV5Config() const { return v5config_; }
+    YOLO::Net_config getV5Config() const { return v5config_; }
 
 
 private:
     Json::Value config_json_;
-    Net_config v5config_;
+    YOLO::Net_config v5config_;
 };
 
-}// namespace YOLO
+}// namespace cpptide::http::plugin

@@ -1,6 +1,9 @@
 #include "src/http/advice/httpAdvice.hpp"
 #include "src/http/controllers/asyncVideoStream.hpp"
 
+namespace cpptide::http::advice
+{
+
 void HttpAdvice::InitAdvice(int advice)
 {
     if (advice & HttpAdvice::SyncAdvice) {
@@ -24,7 +27,7 @@ void HttpAdvice::InitAdvice(int advice)
 drogon::HttpResponsePtr HttpAdvice::HandleSyncAdvice(const drogon::HttpRequestPtr &req)
 {
     LOG_INFO << "HandleSyncAdvice";
-    asyncVideoStream::closeCap();
+    http::controller::asyncVideoStream::closeCap();
     return drogon::HttpResponsePtr();
 }
 
@@ -39,4 +42,6 @@ bool HttpAdvice::HandleNewConnectionAdvice(const trantor::InetAddress &peer_addr
 
 void HttpAdvice::HandleBeginningAdvice()
 {
+}
+
 }

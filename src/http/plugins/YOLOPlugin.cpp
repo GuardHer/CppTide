@@ -7,7 +7,10 @@
 #include "src/http/plugins/YOLOPlugin.hpp"
 
 using namespace drogon;
-using namespace YOLO;
+
+namespace cpptide::http::plugin
+{
+
 
 void YOLOPlugin::initAndStart(const Json::Value &config)
 {
@@ -27,3 +30,5 @@ void YOLOPlugin::shutdown()
 {
     /// Shutdown the plugin
 }
+
+}// namespace cpptide::http::plugin

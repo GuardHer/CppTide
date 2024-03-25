@@ -8,7 +8,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 
-using namespace drogon;
+namespace cpptide::http::controller
+{
 
 class asyncVideoStream : public drogon::HttpController<asyncVideoStream>
 {
@@ -18,18 +19,18 @@ public:
     // use METHOD_ADD to add your custom processing function here;
     // METHOD_ADD(asyncVideoStream::get, "/{2}/{1}", Get); // path is /asyncVideoStream/{arg2}/{arg1}
     // METHOD_ADD(asyncVideoStream::your_method_name, "/{1}/{2}/list", Get); // path is /asyncVideoStream/{arg1}/{arg2}/list
-    ADD_METHOD_TO(asyncVideoStream::startVideoStream, "/start_video?index={1}", Get);// path is /absolute/path/{arg1}/{arg2}/list
-    ADD_METHOD_TO(asyncVideoStream::stopVideoStream, "/stop_video", Get);            // path is /absolute/path/{arg1}/{arg2}/list
+    ADD_METHOD_TO(asyncVideoStream::startVideoStream, "/start_video?index={1}", drogon::Get);// path is /absolute/path/{arg1}/{arg2}/list
+    ADD_METHOD_TO(asyncVideoStream::stopVideoStream, "/stop_video", drogon::Get);            // path is /absolute/path/{arg1}/{arg2}/list
 
     METHOD_LIST_END
     // your declaration of processing function maybe like this:
     // void get(const HttpRequestPtr& req, std::function<void (const HttpResponsePtr &)> &&callback, int p1, std::string p2);
-    void startVideoStream(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, int index) const;
-    void stopVideoStream(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback) const;
+    void startVideoStream(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback, int index) const;
+    void stopVideoStream(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback) const;
 
 
 private:
-    static void VideoStream(ResponseStreamPtr resp);
+    static void VideoStream(drogon::ResponseStreamPtr resp);
 
 public:
     static void closeCap();
@@ -38,7 +39,9 @@ public:
 
 private:
     static YOLO::Net_config v5config_;
-    static std::shared_ptr<YOLO::v5Lite> net_;
-    static std::shared_ptr<MultiVideoCapture> multi_cap_;
+    static YOLO::v5Lite net_;
+    static YOLO::MultiVideoCapture multi_cap_;
     static int current_index_;
 };
+
+}// namespace cpptide::http::controller

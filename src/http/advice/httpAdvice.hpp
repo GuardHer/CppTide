@@ -2,6 +2,9 @@
 
 #include <drogon/drogon.h>
 
+namespace cpptide::http::advice
+{
+
 class HttpAdvice
 {
 public:
@@ -35,3 +38,5 @@ private:
     /// @brief 主事件循环运行后立即执行的开始通知
     static void HandleBeginningAdvice();
 };
+
+}// namespace cpptide::http::advice

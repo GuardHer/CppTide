@@ -315,7 +315,7 @@
 	//plugins: Define all plugins running in the application
 	"plugins": [
 		{
-			"name": "YOLO::OpencvPlugin",
+			"name": "cpptide::http::plugin::OpencvPlugin",
 			"dependencies": [],
 			"config": {
 				"camera_num": 2
@@ -349,7 +349,7 @@
 			}
 		},
 		{
-			"name": "YOLO::YOLOPlugin",
+			"name": "cpptide::http::plugin::YOLOPlugin",
 			"dependencies": [],
 			"config": {
 				"model_path": "E:\\Code\\CppTide\\weights\\best.onnx",

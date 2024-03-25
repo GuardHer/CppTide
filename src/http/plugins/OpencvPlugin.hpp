@@ -8,7 +8,7 @@
 
 #include <drogon/plugins/Plugin.h>
 
-namespace YOLO
+namespace cpptide::http::plugin
 {
 
 class OpencvPlugin : public drogon::Plugin<OpencvPlugin>
@@ -33,4 +33,4 @@ private:
     int camera_num_;
 };
 
-}// namespace YOLO
+}// namespace cpptide::http::plugin

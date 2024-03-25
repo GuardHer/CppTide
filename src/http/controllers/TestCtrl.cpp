@@ -3,6 +3,9 @@
 
 #include "src/http/plugins/OpencvPlugin.hpp"
 
+namespace cpptide::http::controller
+{
+
 void TestCtrl::asyncHandleHttpRequest(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback)
 {
 
@@ -29,3 +32,5 @@ void TestCtrl::asyncHandleHttpRequest(const HttpRequestPtr &req, std::function<v
     auto resp        = HttpResponse::newHttpJsonResponse(ret);
     callback(resp);
 }
+
+}// namespace cpptide::http::controller

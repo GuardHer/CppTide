@@ -12,11 +12,17 @@
 #include <opencv2/imgproc.hpp>
 #include <sstream>
 
+using namespace cpptide::serial;
+using namespace cpptide::YOLO;
+using namespace cpptide::http::advice;
+using namespace drogon;
+
+
 void testMultiVideoCapture()
 {
     cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
-    MultiVideoCapture mvc;
+    cpptide::YOLO::MultiVideoCapture mvc;
     // mvc.init();
     cv::VideoCapture &cap = mvc.get(1);
     if (!cap.isOpened()) {
@@ -47,9 +53,7 @@ int main()
     HttpAdvice::InitAdvice(advice);
     cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
-    drogon::app().loadConfigFile("E:\\Code\\CppTide\\config.json");
-    drogon::app().addListener("0.0.0.0", 8000);
-    drogon::app().setThreadNum(3);
+    drogon::app().loadConfigFile("E:\\Code\\CppTide\\config.yaml");
     drogon::app().setLogLevel(trantor::Logger::kDebug);
     drogon::app().run();
 

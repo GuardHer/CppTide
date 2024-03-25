@@ -5,10 +5,23 @@
 #include <trantor/utils/Logger.h>
 #include <utility>
 
-using namespace YOLO;
+namespace cpptide::YOLO
+{
+
+v5Lite::v5Lite()
+    : is_initialized(false)
+{
+}
 
 v5Lite::v5Lite(Net_config config)
 {
+    this->init(config);
+}
+
+void v5Lite::init(Net_config config)
+{
+    if (is_initialized) return;
+
     this->confThreshold = config.confThreshold;
     this->nmsThreshold  = config.nmsThreshold;
     this->objThreshold  = config.objThreshold;
@@ -48,6 +61,8 @@ v5Lite::v5Lite(Net_config config)
     std::string line;
     while (getline(ifs, line)) this->class_names.push_back(line);
     this->num_class = static_cast<int>(this->class_names.size());
+
+    is_initialized = true;
 }
 
 cv::Mat v5Lite::resize_image(cv::Mat srcimg, int *newh, int *neww, int *top, int *left)
@@ -205,3 +220,5 @@ void v5Lite::detect(cv::Mat &frame)
         putText(frame, label, cv::Point(xmin, ymin - 5), cv::FONT_HERSHEY_SIMPLEX, 0.75, cv::Scalar(0, 255, 0), 2);
     }
 }
+
+}// namespace cpptide::YOLO
