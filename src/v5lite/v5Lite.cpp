@@ -1,4 +1,4 @@
-#include "src/v5lite/v5Lite.hpp"
+#include "src/v5lite/V5Lite.hpp"
 
 #include <codecvt>
 #include <locale>
@@ -8,17 +8,17 @@
 namespace cpptide::YOLO
 {
 
-v5Lite::v5Lite()
+V5Lite::V5Lite()
     : is_initialized(false)
 {
 }
 
-v5Lite::v5Lite(Net_config config)
+V5Lite::V5Lite(Net_config config)
 {
     this->init(config);
 }
 
-void v5Lite::init(Net_config config)
+void V5Lite::init(Net_config config)
 {
     if (is_initialized) return;
 
@@ -65,7 +65,7 @@ void v5Lite::init(Net_config config)
     is_initialized = true;
 }
 
-cv::Mat v5Lite::resize_image(cv::Mat srcimg, int *newh, int *neww, int *top, int *left)
+cv::Mat V5Lite::resize_image(cv::Mat srcimg, int *newh, int *neww, int *top, int *left)
 {
     int srch = srcimg.rows, srcw = srcimg.cols;
     *newh = this->inpHeight;
@@ -92,7 +92,7 @@ cv::Mat v5Lite::resize_image(cv::Mat srcimg, int *newh, int *neww, int *top, int
     return dstimg;
 }
 
-void v5Lite::normalize_(cv::Mat img)
+void V5Lite::normalize_(cv::Mat img)
 {
     //    img.convertTo(img, CV_32F);
     int row = img.rows;
@@ -108,7 +108,7 @@ void v5Lite::normalize_(cv::Mat img)
     }
 }
 
-void v5Lite::nms(std::vector<BoxInfo> &input_boxes)
+void V5Lite::nms(std::vector<BoxInfo> &input_boxes)
 {
     sort(input_boxes.begin(), input_boxes.end(), [](BoxInfo a, BoxInfo b) { return a.score > b.score; });
     std::vector<float> vArea(input_boxes.size());
@@ -141,7 +141,7 @@ void v5Lite::nms(std::vector<BoxInfo> &input_boxes)
     input_boxes.erase(remove_if(input_boxes.begin(), input_boxes.end(), [&idx_t, &isSuppressed](const BoxInfo &f) { return isSuppressed[idx_t++]; }), input_boxes.end());
 }
 
-void v5Lite::detect(cv::Mat &frame)
+void V5Lite::detect(cv::Mat &frame)
 {
     auto start = std::chrono::high_resolution_clock::now();
 

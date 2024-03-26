@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 add_definitions(-DBOOST_BIND_GLOBAL_PLACEHOLDERS) # 解决boost::bind的问题
+add_definitions(-D_WIN32_WINNT=0x0A00)
 
 if(MSVC)
 	# 添加编译选项, 设置 输入代码的编码格式为 utf-8

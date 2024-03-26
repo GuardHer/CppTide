@@ -1,4 +1,4 @@
-#include "src/v5lite/multiVideoCapture.hpp"
+#include "src/v5lite/MultiVideoCapture.hpp"
 
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>

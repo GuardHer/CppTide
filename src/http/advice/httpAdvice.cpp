@@ -1,5 +1,9 @@
 #include "src/http/advice/httpAdvice.hpp"
-#include "src/http/controllers/asyncVideoStream.hpp"
+#include "src/http/controllers/AsyncVideoStream.hpp"
+#include "src/http/controllers/BoatController.hpp"
+#include "src/http/plugins/OpencvPlugin.hpp"
+#include "src/http/plugins/SerialPlugin.hpp"
+#include "src/http/plugins/YOLOPlugin.hpp"
 
 namespace cpptide::http::advice
 {
@@ -27,7 +31,7 @@ void HttpAdvice::InitAdvice(int advice)
 drogon::HttpResponsePtr HttpAdvice::HandleSyncAdvice(const drogon::HttpRequestPtr &req)
 {
     LOG_INFO << "HandleSyncAdvice";
-    http::controller::asyncVideoStream::closeCap();
+    http::controller::AsyncVideoStream::closeCap();
     return drogon::HttpResponsePtr();
 }
 
@@ -42,6 +46,10 @@ bool HttpAdvice::HandleNewConnectionAdvice(const trantor::InetAddress &peer_addr
 
 void HttpAdvice::HandleBeginningAdvice()
 {
+    LOG_INFO << "HandleBeginningAdvice";
+    controller::AsyncVideoStream::yolov5Ptr_            = drogon::app().getPlugin<plugin::YOLOPlugin>()->getV5LitePtr();
+    controller::AsyncVideoStream::multiVideoCapturePtr_ = drogon::app().getPlugin<plugin::OpencvPlugin>()->getMultiVideoCapturePtr();
+    controller::BoatController::serialPtr_              = drogon::app().getPlugin<plugin::SerialPlugin>()->getAsyncSerialPtr();
 }
 
-}
+}// namespace cpptide::http::advice

@@ -34,12 +34,12 @@ typedef struct BoxInfo
     int label;
 } BoxInfo;
 
-class v5Lite
+class V5Lite
 {
 
 public:
-    v5Lite();
-    v5Lite(Net_config config);
+    V5Lite();
+    V5Lite(Net_config config);
     void detect(cv::Mat &frame);
 
     void init(Net_config config);
@@ -64,7 +64,7 @@ private:
     void normalize_(cv::Mat img);
     void nms(std::vector<BoxInfo> &input_boxes);
     const bool keep_ratio              = true;
-    Ort::Env env                       = Ort::Env(ORT_LOGGING_LEVEL_ERROR, "v5Litev5-lite");
+    Ort::Env env                       = Ort::Env(ORT_LOGGING_LEVEL_ERROR, "V5Litev5-lite");
     Ort::Session *ort_session          = nullptr;
     Ort::SessionOptions sessionOptions = Ort::SessionOptions();
     std::vector<char *> input_names;

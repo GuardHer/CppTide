@@ -1,6 +1,6 @@
 #include "src/http/advice/httpAdvice.hpp"
-#include "src/serial/serialBase.hpp"
-#include "src/v5lite/multiVideoCapture.hpp"
+#include "src/serial/SerialBase.hpp"
+#include "src/v5lite/MultiVideoCapture.hpp"
 #include <boost/version.hpp>
 #include <drogon/drogon.h>
 #include <opencv2/core/utils/logger.hpp>
@@ -43,13 +43,15 @@ void testMultiVideoCapture()
     cv::destroyAllWindows();
 }
 
+
 int main()
 {
 
     // testOpencv();
     // testMultiVideoCapture();
+    // testDBModel();
 
-    int advice = HttpAdvice::SyncAdvice | HttpAdvice::NewConnectionAdvice;
+    int advice = HttpAdvice::SyncAdvice | HttpAdvice::NewConnectionAdvice | HttpAdvice::BeginningAdvice;
     HttpAdvice::InitAdvice(advice);
     cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 

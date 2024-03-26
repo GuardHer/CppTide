@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "src/v5lite/MultiVideoCapture.hpp"
 #include <drogon/plugins/Plugin.h>
 
 namespace cpptide::http::plugin
@@ -13,6 +14,9 @@ namespace cpptide::http::plugin
 
 class OpencvPlugin : public drogon::Plugin<OpencvPlugin>
 {
+public:
+    using OpencvPluginPtr = std::shared_ptr<OpencvPlugin>;
+
 public:
     OpencvPlugin() {}
     /// This method must be called by drogon to initialize and start the plugin.
@@ -27,10 +31,12 @@ public:
 
     int getCameraNum() const { return camera_num_; }
 
-private:
-    Json::Value config_json_;
+    std::shared_ptr<YOLO::MultiVideoCapture> getMultiVideoCapturePtr() const { return multiVideoCapturePtr_; }
 
+private:
     int camera_num_;
+    std::shared_ptr<YOLO::MultiVideoCapture> multiVideoCapturePtr_;
+    Json::Value configJsonValue_;
 };
 
 }// namespace cpptide::http::plugin

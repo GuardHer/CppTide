@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/serial/serialBase.hpp"
+#include "src/serial/SerialBase.hpp"
 #include <boost/asio.hpp>
 
 namespace cpptide::serial
@@ -15,14 +15,23 @@ public:
     typedef boost::asio::serial_port_base::flow_control flow_control_t;
     typedef boost::asio::serial_port_base::stop_bits stop_bits_t;
 
-    AsyncSerial();
-    AsyncSerial(const std::string &devname, unsigned int baud_rate,
-                parity_t opt_parity        = parity_t(parity_t::none),
-                character_size_t opt_csize = character_size_t(8),
-                flow_control_t opt_flow    = flow_control_t(flow_control_t::none),
-                stop_bits_t opt_stop       = stop_bits_t(stop_bits_t::one));
+    struct SerialPortOptions
+    {
+        parity_t opt_parity             = parity_t(parity_t::none);
+        character_size_t opt_csize      = character_size_t(8);
+        flow_control_t opt_flow_control = flow_control_t(flow_control_t::none);
+        stop_bits_t opt_stop_bits       = stop_bits_t(stop_bits_t::one);
+    };
 
-    virtual ~AsyncSerial() = 0;
+    AsyncSerial();
+    explicit AsyncSerial(const std::string &devname, unsigned int baud_rate, const SerialPortOptions &options = SerialPortOptions());
+    explicit AsyncSerial(const std::string &devname, unsigned int baud_rate,
+                         parity_t opt_parity        = parity_t(parity_t::none),
+                         character_size_t opt_csize = character_size_t(8),
+                         flow_control_t opt_flow    = flow_control_t(flow_control_t::none),
+                         stop_bits_t opt_stop       = stop_bits_t(stop_bits_t::one));
+
+    ~AsyncSerial();
 
 public:
     void open(const std::string &devname, unsigned int baud_rate,
@@ -30,6 +39,8 @@ public:
               character_size_t opt_csize = character_size_t(8),
               flow_control_t opt_flow    = flow_control_t(flow_control_t::none),
               stop_bits_t opt_stop       = stop_bits_t(stop_bits_t::one));
+
+    void open(const std::string &devname, unsigned int baud_rate, const SerialPortOptions &options = SerialPortOptions());
 
     /// @brief 是否已经打开串口
     /// @return true: 已经打开, false: 未打开

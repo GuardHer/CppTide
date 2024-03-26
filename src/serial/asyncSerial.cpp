@@ -1,5 +1,6 @@
-#include "src/serial/asyncSerial.hpp"
+#include "src/serial/AsyncSerial.hpp"
 
+#include "trantor/utils/Logger.h"
 #include <boost/bind.hpp>
 #include <boost/functional.hpp>
 #include <boost/shared_array.hpp>
@@ -9,7 +10,6 @@
 
 namespace cpptide::serial
 {
-
 
 AsyncSerial::AsyncSerial()
 {
@@ -24,12 +24,17 @@ AsyncSerial::AsyncSerial(const std::string &devname, unsigned int baud_rate,
     open(devname, baud_rate, opt_parity, opt_csize, opt_flow, opt_stop);
 }
 
+AsyncSerial::AsyncSerial(const std::string &devname, unsigned int baud_rate, const SerialPortOptions &options)
+{
+    pimpl_ = std::make_shared<AsyncSerialImpl>();
+    open(devname, baud_rate, options);
+}
+
 void AsyncSerial::open(const std::string &devname, unsigned int baud_rate,
                        parity_t opt_parity, character_size_t opt_csize,
                        flow_control_t opt_flow, stop_bits_t opt_stop)
 {
-    if (isOpen())
-        close();
+    if (isOpen()) close();
 
     setErrorStatus(true);// If an exception is thrown, error_ remains true
     pimpl_->port_.open(devname);
@@ -46,6 +51,13 @@ void AsyncSerial::open(const std::string &devname, unsigned int baud_rate,
     pimpl_->backgroundThread_.swap(t);
     setErrorStatus(false);// If we get here, no error
     pimpl_->open_ = true; // Port is now open
+
+    LOG_INFO << "Serial port: " << devname << ", opened with baud rate: " << baud_rate;
+}
+
+void AsyncSerial::open(const std::string &devname, unsigned int baud_rate, const SerialPortOptions &options)
+{
+    open(devname, baud_rate, options.opt_parity, options.opt_csize, options.opt_flow_control, options.opt_stop_bits);
 }
 
 bool AsyncSerial::isOpen() const

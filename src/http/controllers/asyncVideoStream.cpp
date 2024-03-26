@@ -1,25 +1,19 @@
-#include "src/http/controllers/asyncVideoStream.hpp"
+#include "src/http/controllers/AsyncVideoStream.hpp"
 
-#include "src/http/plugins/OpencvPlugin.hpp"
-#include "src/http/plugins/YOLOPlugin.hpp"
 
 namespace cpptide::http::controller
 {
 
-YOLO::MultiVideoCapture asyncVideoStream::multi_cap_ = YOLO::MultiVideoCapture();
-YOLO::v5Lite asyncVideoStream::net_                  = YOLO::v5Lite();
-YOLO::Net_config asyncVideoStream::v5config_         = YOLO::Net_config();
-int asyncVideoStream::current_index_                 = 0;
 
-void asyncVideoStream::startVideoStream(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback, int index) const
+int AsyncVideoStream::current_index_                                             = 0;
+std::shared_ptr<YOLO::V5Lite> AsyncVideoStream::yolov5Ptr_                       = nullptr;
+std::shared_ptr<YOLO::MultiVideoCapture> AsyncVideoStream::multiVideoCapturePtr_ = nullptr;
+
+void AsyncVideoStream::startVideoStream(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback, int index) const
 {
-    if (multi_cap_.getCameraNum() == 0) {
-        multi_cap_.init(drogon::app().getPlugin<http::plugin::OpencvPlugin>()->getCameraNum());
-    }
-
     /// 打开摄像头
     if (!isOpened(index)) {
-        multi_cap_.open(index);
+        multiVideoCapturePtr_->open(index);
         LOG_DEBUG << "open index: " << index;
     }
 
@@ -35,19 +29,19 @@ void asyncVideoStream::startVideoStream(const drogon::HttpRequestPtr &req, std::
     current_index_ = index;
 
     /// 如果打开成功, 开始长传视频流
-    auto resp = drogon::HttpResponse::newAsyncStreamResponse([](auto &&PH1) { return asyncVideoStream::VideoStream(std::forward<decltype(PH1)>(PH1)); });
+    auto resp = drogon::HttpResponse::newAsyncStreamResponse([](auto &&PH1) { return AsyncVideoStream::VideoStream(std::forward<decltype(PH1)>(PH1)); });
     resp->addHeader("Content-Type", "multipart/x-mixed-replace;boundary=frame");
     callback(resp);
 }
 
-void asyncVideoStream::stopVideoStream(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback) const
+void AsyncVideoStream::stopVideoStream(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback) const
 {
 
     /// 释放摄像头
     closeCap();
 
     /// 如果释放失败, 返回错误信息
-    if (multi_cap_.isCloseAll()) {
+    if (multiVideoCapturePtr_->isCloseAll()) {
         auto resp_err = drogon::HttpResponse::newHttpResponse();
         resp_err->setStatusCode(drogon::k500InternalServerError);
         resp_err->setBody("Failed to close video");
@@ -61,18 +55,10 @@ void asyncVideoStream::stopVideoStream(const drogon::HttpRequestPtr &req, std::f
     callback(resp_ok);
 }
 
-void asyncVideoStream::VideoStream(drogon::ResponseStreamPtr resp)
+void AsyncVideoStream::VideoStream(drogon::ResponseStreamPtr resp)
 {
-    if (v5config_.classesFile.empty()) {
-        v5config_ = drogon::app().getPlugin<http::plugin::YOLOPlugin>()->getV5Config();
-    }
 
-    if (!net_.isInit()) {
-        net_.init(v5config_);
-    }
-
-
-    auto &cap_ = multi_cap_.get(current_index_);
+    auto &cap_ = multiVideoCapturePtr_->get(current_index_);
 
     /// 如果没有打开摄像头, 返回
     if (!cap_.isOpened()) {
@@ -85,7 +71,7 @@ void asyncVideoStream::VideoStream(drogon::ResponseStreamPtr resp)
         cv::Mat frame;
         cap_ >> frame;// Capture a frame
         if (!frame.empty()) {
-            net_.detect(frame);
+            yolov5Ptr_->detect(frame);
             std::vector<uchar> img_buffer;
             cv::imencode(".jpg", frame, img_buffer);
             std::string ima_data(img_buffer.begin(), img_buffer.end());
@@ -102,14 +88,14 @@ void asyncVideoStream::VideoStream(drogon::ResponseStreamPtr resp)
     resp->close();
 }
 
-bool asyncVideoStream::isOpened(int index)
+bool AsyncVideoStream::isOpened(int index)
 {
-    return multi_cap_.isOpened(index);
+    return multiVideoCapturePtr_->isOpened(index);
 }
 
-void asyncVideoStream::closeCap()
+void AsyncVideoStream::closeCap()
 {
-    multi_cap_.closeAll();
+    multiVideoCapturePtr_->closeAll();
 }
 
 }// namespace cpptide::http::controller
