@@ -2,11 +2,15 @@ import os
 import re
 
 
-def count_code_lines(directory):
+def count_code_lines(directory, exclude_dirs=None):
     total_lines = 0
     pattern = re.compile(r'^\s*//|^\s*/\*|\*/|^\s*\*')
 
+    if exclude_dirs is None:
+        exclude_dirs = []
+
     for root, dirs, files in os.walk(directory):
+        dirs[:] = [d for d in dirs if d not in exclude_dirs]
         for file in files:
             if file.endswith('.hpp') or file.endswith('.cpp'):
                 file_path = os.path.join(root, file)
@@ -17,7 +21,7 @@ def count_code_lines(directory):
                     for line in lines:
                         line = line.strip()
                         if not in_comment_block:
-                            if pattern.match(line):
+                            if pattern.match(line) or not line:
                                 continue
                             else:
                                 code_lines += 1
@@ -33,5 +37,5 @@ def count_code_lines(directory):
 
 
 # 指定要计算的目录
-directory_to_scan = "/path/to/your/directory"
+directory_to_scan = "E:\\Code\\CppTide\\src"
 count_code_lines(directory_to_scan)
