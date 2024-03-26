@@ -16,13 +16,14 @@ struct ControlData
     int16_t UpSteering   = 90;// 上舵机
     int16_t DownSteering = 90;// 下舵机
     int16_t Light        = 0; // 灯光
+    int16_t Pump         = 0; // 水泵
     int16_t FindFish     = 0; // 寻鱼
 };
 
 class BoatController
 {
 public:
-    /// @brief Boat state
+    /// @brief Boat direction
     enum class Direction
     {
         FORWARD, // 向前
@@ -33,15 +34,42 @@ public:
         UKNOWN   // 未知
     };
 
-    /// @brief Convert boat state to string
+    enum class Device
+    {
+        LIGHT, // 灯光
+        PUMP,  // 水泵
+        UNKNOWN// 未知
+    };
+
+    /// @brief Device state
+    enum class DeviceState
+    {
+        ON,    // 开
+        OFF,   // 关
+        TOGGLE,// 切换
+        UNKNOWN// 未知
+    };
+
+
+    /// @brief Convert boat direction to string
     /// @param direction Boat state
     /// @return std::string
     static std::string directionToString(Direction direction);
 
-    /// @brief Convert string to boat state
+    /// @brief Convert string to boat direction
     /// @param direction  String
     /// @return  Direction
     static Direction stringToDirection(const std::string &direction);
+
+    /// @brief Convert device state to string
+    /// @param state Device state
+    /// @return std::string
+    static std::string deviceStateToString(DeviceState state);
+
+    /// @brief Convert string to  device state
+    /// @param direction string
+    /// @return Device state
+    static DeviceState stringToDeviceState(const std::string &state);
 
     /// @brief Convert control data to json
     /// @param data Control data
@@ -65,37 +93,12 @@ public:
     /// @param data Json data
     static void writeJsonData(const Json::Value &data);
 
+    /// @brief Update control data to database, this is a scheduled task
+    static void updateControlDataToDatabase();
+
 public:
     static ControlData controlData_;
     static std::shared_ptr<serial::AsyncSerial> serialPtr_;
-};
-
-/// @brief Steering controller: 舵机, 控制摄像头的方向
-class SteeringController : public drogon::HttpController<SteeringController>
-{
-public:
-    METHOD_LIST_BEGIN
-    ADD_METHOD_TO(SteeringController::directionController, "/control/steering/{1}", drogon::Get);
-    METHOD_LIST_END
-
-public:
-    /// @brief Control the direction of the boat (方向)
-    /// @param req Request
-    /// @param callback Callback function
-    /// @param direction Direction of the boat
-    void directionController(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback, std::string direction) const;
-};
-
-/// @brief Motor controller: 电机, 控制船的运动
-class MotorController : public drogon::HttpController<MotorController>
-{
-public:
-    METHOD_LIST_BEGIN
-    ADD_METHOD_TO(SteeringController::directionController, "/control/motor/{1}", drogon::Get);
-    METHOD_LIST_END
-
-public:
-    void directionController(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback, std::string direction) const;
 };
 
 }// namespace cpptide::http::controller

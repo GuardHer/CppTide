@@ -1,13 +1,13 @@
 #include "src/http/advice/httpAdvice.hpp"
 #include "src/serial/SerialBase.hpp"
 #include "src/v5lite/MultiVideoCapture.hpp"
+#include "src/v5lite/V5Lite.hpp"
 #include <boost/version.hpp>
 #include <drogon/drogon.h>
 #include <opencv2/core/utils/logger.hpp>
 
 #include <fstream>
 #include <iostream>
-#include <onnxruntime_cxx_api.h>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <sstream>
@@ -43,20 +43,42 @@ void testMultiVideoCapture()
     cv::destroyAllWindows();
 }
 
+void testOpencvDnn()
+{
+    cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
+    cv::VideoCapture cap(0);
+    // cap.set(cv::CAP_PROP_FRAME_WIDTH, 320);
+    // cap.set(cv::CAP_PROP_FRAME_HEIGHT, 240);
+
+    cpptide::YOLO::Net_config config { (float)0.8, (float)0.4, (float)0.5, "E:\\Code\\CppTide\\weights\\v5lite-s.onnx", "E:\\Code\\CppTide\\weights\\class\\coco.names" };
+    cpptide::YOLO::V5Lite yolov5(config);
+
+    while (cap.isOpened()) {
+        cv::Mat frame;
+        cap >> frame;// Capture a frame
+        yolov5.detect(frame);
+        cv::imshow("Live", frame);
+        if (cv::waitKey(1) == 27) {// ESC key
+            break;
+        }
+    }
+    cv::destroyAllWindows();
+}
 int main()
 {
 
     // testOpencv();
     // testMultiVideoCapture();
-    // testDBModel();
+    // testOpencvDnn();
 
     int advice = HttpAdvice::SyncAdvice | HttpAdvice::NewConnectionAdvice | HttpAdvice::BeginningAdvice;
     HttpAdvice::InitAdvice(advice);
     cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
     drogon::app().loadConfigFile("E:\\Code\\CppTide\\config.yaml");
-    drogon::app().setLogLevel(trantor::Logger::kDebug);
+    // drogon::app().setLogLevel(trantor::Logger::kDebug);
+	// drogon::app().setLogLocalTime(true);
     drogon::app().run();
 
     return 0;

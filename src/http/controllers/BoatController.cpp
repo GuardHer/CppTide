@@ -1,4 +1,5 @@
 #include "src/http/controllers/BoatController.hpp"
+#include "src/http/models/Control.hpp"
 #include "src/http/plugins/SerialPlugin.hpp"
 
 namespace cpptide::http::controller
@@ -7,7 +8,6 @@ namespace cpptide::http::controller
 ControlData BoatController::controlData_                        = ControlData();
 std::shared_ptr<serial::AsyncSerial> BoatController::serialPtr_ = nullptr;
 
-/////////////////////////////////////////////////////////////////////////////////////////
 std::string BoatController::directionToString(Direction direction)
 {
     switch (direction) {
@@ -50,6 +50,40 @@ BoatController::Direction BoatController::stringToDirection(const std::string &d
     }
 }
 
+std::string BoatController::deviceStateToString(DeviceState state)
+{
+    switch (state) {
+        case DeviceState::ON:
+            return "on";
+        case DeviceState::OFF:
+            return "off";
+        case DeviceState::TOGGLE:
+            return "toggle";
+        default:
+            return "unknown";
+    }
+}
+
+BoatController::DeviceState BoatController::stringToDeviceState(const std::string &state)
+{
+    // 将字符串转换为小写形式
+    std::string lowerState = state;
+    std::transform(lowerState.begin(), lowerState.end(), lowerState.begin(), [](unsigned char c) {
+        return std::tolower(c);
+    });
+
+    // 比较转换后的字符串
+    if (lowerState == "on") {
+        return DeviceState::ON;
+    } else if (lowerState == "off") {
+        return DeviceState::OFF;
+    } else if (lowerState == "toggle") {
+        return DeviceState::TOGGLE;
+    } else {
+        return DeviceState::UNKNOWN;
+    }
+}
+
 Json::Value BoatController::controlDataToJson(const ControlData &data)
 {
     Json::Value json;
@@ -59,6 +93,7 @@ Json::Value BoatController::controlDataToJson(const ControlData &data)
     json["DownSteering"] = std::to_string(data.DownSteering);
     json["Light"]        = std::to_string(data.Light);
     json["FindFish"]     = std::to_string(data.FindFish);
+    json["Pump"]         = std::to_string(data.Pump);
     return json;
 }
 
@@ -84,114 +119,19 @@ void BoatController::writeJsonData(const Json::Value &data)
     writeStringData(str);
 }
 
-
-/////////////////// SteeringController ////////////////////
-void SteeringController::directionController(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback, std::string direction) const
+void BoatController::updateControlDataToDatabase()
 {
-    BoatController::Direction boatDirection = BoatController::stringToDirection(direction);
-    ControlData &data                       = BoatController::controlData_;
-    Json::Value respData;
-    bool isErr = false;
-    switch (boatDirection) {
-        case BoatController::Direction::FORWARD:
-            if (data.UpSteering >= 180) {
-                data.UpSteering = 180;
-            } else {
-                data.UpSteering += 10;
-            }
-            break;
-        case BoatController::Direction::BACKWARD:
-            if (data.UpSteering <= 0) {
-                data.UpSteering = 0;
-            } else {
-                data.UpSteering -= 10;
-            }
-            break;
-        case BoatController::Direction::LEFT:
-            if (data.DownSteering >= 180) {
-                data.DownSteering = 180;
-            } else {
-                data.DownSteering += 10;
-            }
-            break;
-        case BoatController::Direction::RIGHT:
-            if (data.DownSteering <= 0) {
-                data.DownSteering = 0;
-            } else {
-                data.DownSteering -= 10;
-            }
-            break;
-        case BoatController::Direction::STOP:
-            data.UpSteering   = 90;
-            data.DownSteering = 90;
-            break;
-        default:
-            isErr = true;
-            break;
-    }
-    auto sendData = BoatController::controlData_;
-    // 通过串口发送数据
-    BoatController::writeControlData(sendData);
+    auto clientPtr = drogon::app().getDbClient();
+    drogon::orm::Mapper<drogon_model::ship::Control> mp(clientPtr);
+    auto control = mp.findByPrimaryKey(1);//
+    control.setLeftmotor(controlData_.LeftMotor);
+    control.setRightmotor(controlData_.RightMotor);
+    control.setUpservo(controlData_.UpSteering);
+    control.setDownservo(controlData_.DownSteering);
+    control.setLight(controlData_.Light);
+    auto size = mp.update(control);
 
-    // http response
-    respData["data"] = BoatController::controlDataToJson(sendData);
-    if (isErr) {
-        respData["error"] = "Unknown direction";
-        respData["code"]  = drogon::k500InternalServerError;
-    } else {
-        respData["code"] = drogon::k200OK;
-    }
-    auto resp = drogon::HttpResponse::newHttpJsonResponse(respData);
-    callback(resp);
-}
-
-
-////////////////// MotorController ////////////////////
-void MotorController::directionController(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback, std::string direction) const
-{
-    BoatController::Direction boatDirection = BoatController::stringToDirection(direction);
-    ControlData &data                       = BoatController::controlData_;
-    Json::Value respData;
-    bool isErr = false;
-    switch (boatDirection) {
-        case BoatController::Direction::FORWARD:
-            data.LeftMotor  = 70;
-            data.RightMotor = 70;
-            break;
-        case BoatController::Direction::BACKWARD:
-            data.LeftMotor  = 100;
-            data.RightMotor = 100;
-            break;
-        case BoatController::Direction::LEFT:
-            data.LeftMotor  = 100;
-            data.RightMotor = 70;
-            break;
-        case BoatController::Direction::RIGHT:
-            data.LeftMotor  = 70;
-            data.RightMotor = 100;
-            break;
-        case BoatController::Direction::STOP:
-            data.UpSteering   = 90;
-            data.DownSteering = 90;
-            break;
-        default:
-            isErr = true;
-            break;
-    }
-    auto sendData = BoatController::controlData_;
-    // 通过串口发送数据
-    BoatController::writeControlData(sendData);
-
-    // http response
-    respData["data"] = BoatController::controlDataToJson(sendData);
-    if (isErr) {
-        respData["error"] = "Unknown direction";
-        respData["code"]  = drogon::k500InternalServerError;
-    } else {
-        respData["code"] = drogon::k200OK;
-    }
-    auto resp = drogon::HttpResponse::newHttpJsonResponse(respData);
-    callback(resp);
+    LOG_INFO << "Update control data to database, size: " << size;
 }
 
 }// namespace cpptide::http::controller
