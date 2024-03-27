@@ -18,6 +18,16 @@ V5Lite::V5Lite(Net_config config)
     this->init(config);
 }
 
+V5Lite::~V5Lite()
+{
+    if (is_initialized) {
+        delete ort_session;
+        is_initialized = false;
+    }
+
+    LOG_DEBUG << "V5Lite::~V5Lite()";
+}
+
 void V5Lite::init(Net_config config)
 {
     if (is_initialized) return;

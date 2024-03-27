@@ -23,6 +23,7 @@ void TimerPlugin::initAndStart(const Json::Value &config)
 void TimerPlugin::shutdown()
 {
     /// Shutdown the plugin
+    LOG_DEBUG << "TimerPlugin shutdown";
 }
 
 }// namespace cpptide::http::plugin

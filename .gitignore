@@ -7,6 +7,9 @@ build/
 Debug/
 uploads/
 
+config.json
+config.yaml
+
 *.d
 *.onnx
 *.pt

@@ -1,12 +1,14 @@
 #include "src/http/controllers/BoatController.hpp"
 #include "src/http/models/Control.hpp"
-#include "src/http/plugins/SerialPlugin.hpp"
+#include "src/http/models/Sensor.hpp"
+#include "src/http/plugins/SensorSerialPlugin.hpp"
 
 namespace cpptide::http::controller
 {
 
-ControlData BoatController::controlData_                        = ControlData();
-std::shared_ptr<serial::AsyncSerial> BoatController::serialPtr_ = nullptr;
+ControlData BoatController::controlData_                              = ControlData();
+std::shared_ptr<serial::AsyncSerial> BoatController::sensorSerialPtr_ = nullptr;
+std::shared_ptr<serial::AsyncSerial> BoatController::gpsSerialPtr_    = nullptr;
 
 std::string BoatController::directionToString(Direction direction)
 {
@@ -104,7 +106,7 @@ std::string BoatController::controlDataToString(const ControlData &data)
 
 void BoatController::writeStringData(const std::string &data)
 {
-    serialPtr_->writeString(data);
+    sensorSerialPtr_->writeString(data);
 }
 
 void BoatController::writeControlData(const ControlData &data)
@@ -133,5 +135,6 @@ void BoatController::updateControlDataToDatabase()
 
     LOG_INFO << "Update control data to database, size: " << size;
 }
+
 
 }// namespace cpptide::http::controller

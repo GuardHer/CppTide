@@ -40,6 +40,7 @@ class V5Lite
 public:
     V5Lite();
     V5Lite(Net_config config);
+    ~V5Lite();
     void detect(cv::Mat &frame);
 
     void init(Net_config config);

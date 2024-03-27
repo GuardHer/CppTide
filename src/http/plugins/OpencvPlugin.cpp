@@ -28,6 +28,7 @@ void OpencvPlugin::shutdown()
     /// Shutdown the plugin
     multiVideoCapturePtr_->closeAll();
     multiVideoCapturePtr_.reset();
+    LOG_DEBUG << "OpencvPlugin shutdown";
 }
 
 Json::Value OpencvPlugin::getJsonConfig() const

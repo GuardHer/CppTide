@@ -28,10 +28,12 @@ public:
     boost::shared_array<char> writeBuffer_;///< Data being written
     size_t writeBufferSize_;               ///< Size of writeBuffer
     std::mutex writeQueueMutex_;           ///< Mutex for access to writeQueue
-    char readBuffer[512];                  ///< data being read
+    char readBuffer[1024];                 ///< data being read
 
     /// Read complete callback
     std::function<void(const char *, size_t)> read_callback;
+    /// Write complete callback
+    std::function<void(size_t)> write_complete_callback;
 };
 
 }// namespace cpptide::serial

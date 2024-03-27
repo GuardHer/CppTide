@@ -41,10 +41,9 @@ public:
 
 
 public:
-
     static int current_index_;
     static std::shared_ptr<YOLO::V5Lite> yolov5Ptr_;
-	static std::shared_ptr<YOLO::MultiVideoCapture> multiVideoCapturePtr_;
+    static std::shared_ptr<YOLO::MultiVideoCapture> multiVideoCapturePtr_;
 };
 
 }// namespace cpptide::http::controller

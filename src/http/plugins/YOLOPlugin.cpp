@@ -32,6 +32,7 @@ void YOLOPlugin::shutdown()
 {
     /// Shutdown the plugin
     v5litePtr_.reset();
+    LOG_DEBUG << "YOLOPlugin shutdown";
 }
 
 }// namespace cpptide::http::plugin

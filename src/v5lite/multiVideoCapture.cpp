@@ -18,6 +18,8 @@ MultiVideoCapture::MultiVideoCapture(int camera_num)
 MultiVideoCapture::~MultiVideoCapture()
 {
     closeAll();
+    cap_map_.clear();
+    LOG_DEBUG << "MultiVideoCapture::~MultiVideoCapture()";
 }
 
 void MultiVideoCapture::init(int camera_num)

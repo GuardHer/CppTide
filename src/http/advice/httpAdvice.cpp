@@ -1,8 +1,9 @@
 #include "src/http/advice/httpAdvice.hpp"
 #include "src/http/controllers/AsyncVideoStream.hpp"
 #include "src/http/controllers/BoatController.hpp"
+#include "src/http/plugins/GpsSerialPlugin.hpp"
 #include "src/http/plugins/OpencvPlugin.hpp"
-#include "src/http/plugins/SerialPlugin.hpp"
+#include "src/http/plugins/SensorSerialPlugin.hpp"
 #include "src/http/plugins/TimerPlugin.hpp"
 #include "src/http/plugins/YOLOPlugin.hpp"
 
@@ -53,7 +54,8 @@ void HttpAdvice::HandleBeginningAdvice()
     /// 通过插件获取指针
     controller::AsyncVideoStream::yolov5Ptr_            = drogon::app().getPlugin<plugin::YOLOPlugin>()->getV5LitePtr();
     controller::AsyncVideoStream::multiVideoCapturePtr_ = drogon::app().getPlugin<plugin::OpencvPlugin>()->getMultiVideoCapturePtr();
-    controller::BoatController::serialPtr_              = drogon::app().getPlugin<plugin::SerialPlugin>()->getAsyncSerialPtr();
+    controller::BoatController::sensorSerialPtr_        = drogon::app().getPlugin<plugin::SensorSerialPlugin>()->getAsyncSerialPtr();
+    controller::BoatController::gpsSerialPtr_           = drogon::app().getPlugin<plugin::GpsSerialPlugin>()->getAsyncSerialPtr();
 
     /// 初始化定时任务
     // updateBoatControlData

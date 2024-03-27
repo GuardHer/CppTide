@@ -20,6 +20,21 @@ struct ControlData
     int16_t FindFish     = 0; // 寻鱼
 };
 
+struct GpsData
+{
+    std::string time;          // 时间
+    std::string wgs84_lng;     // WGS84经度
+    std::string wgs84_lat;     // WGS84纬度
+    std::string gcj02_lng;     // GCJ02经度
+    std::string gcj02_lat;     // GCJ02纬度
+    std::string bd09_lng;      // BD09经度
+    std::string bd09_lat;      // BD09纬度
+    std::string gps_qual;      // GPS质量
+    std::string num_sats;      // 卫星数量
+    std::string horizontal_dil;// 水平精度
+    std::string altitude;      // 海拔
+};
+
 class BoatController
 {
 public:
@@ -98,7 +113,8 @@ public:
 
 public:
     static ControlData controlData_;
-    static std::shared_ptr<serial::AsyncSerial> serialPtr_;
+    static std::shared_ptr<serial::AsyncSerial> sensorSerialPtr_;
+    static std::shared_ptr<serial::AsyncSerial> gpsSerialPtr_;
 };
 
 }// namespace cpptide::http::controller

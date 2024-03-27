@@ -1,3 +1,4 @@
+#include "src/common/common.hpp"
 #include "src/http/advice/httpAdvice.hpp"
 #include "src/serial/SerialBase.hpp"
 #include "src/v5lite/MultiVideoCapture.hpp"
@@ -51,7 +52,7 @@ void testOpencvDnn()
     // cap.set(cv::CAP_PROP_FRAME_WIDTH, 320);
     // cap.set(cv::CAP_PROP_FRAME_HEIGHT, 240);
 
-    cpptide::YOLO::Net_config config { (float)0.8, (float)0.4, (float)0.5, "E:\\Code\\CppTide\\weights\\v5lite-s.onnx", "E:\\Code\\CppTide\\weights\\class\\coco.names" };
+    cpptide::YOLO::Net_config config { (float) 0.8, (float) 0.4, (float) 0.5, "E:\\Code\\CppTide\\weights\\v5lite-s.onnx", "E:\\Code\\CppTide\\weights\\class\\coco.names" };
     cpptide::YOLO::V5Lite yolov5(config);
 
     while (cap.isOpened()) {
@@ -65,20 +66,27 @@ void testOpencvDnn()
     }
     cv::destroyAllWindows();
 }
+
+void testParseGps()
+{
+    std::string data = "$GNGGA,121252.000,3937.3032,N,11611.6046,E,1,05,2.0,45.9,M,-5.7,M,,0000*77";
+    auto root        = cpptide::common::parseGPSToJson(data);
+    std::cout << root.toStyledString() << std::endl;
+}
 int main()
 {
 
     // testOpencv();
     // testMultiVideoCapture();
     // testOpencvDnn();
+    // testParseGps();
 
     int advice = HttpAdvice::SyncAdvice | HttpAdvice::NewConnectionAdvice | HttpAdvice::BeginningAdvice;
     HttpAdvice::InitAdvice(advice);
     cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
     drogon::app().loadConfigFile("E:\\Code\\CppTide\\config.yaml");
-    // drogon::app().setLogLevel(trantor::Logger::kDebug);
-	// drogon::app().setLogLocalTime(true);
+    // drogon::app().getLoop()->runAfter(0.0, [] { signal(SIGINT, signalHandler); });
     drogon::app().run();
 
     return 0;
