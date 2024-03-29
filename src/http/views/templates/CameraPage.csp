@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Hello</title>
+	<link rel="shortcut icon" href="E:/Code/CppTide/src/http/views/static/favicon.ico">
+	<link rel="stylesheet" href="E:/Code/CppTide/src/http/views/static/bootstrap/bootstrap@4.6.min.css">
+	<link rel="stylesheet" href="E:/Code/CppTide/src/http/views/static/css/init.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!--导入jQuery-->
+
+</head>
+
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container">
+			<a class="navbar-brand" href="HomePage.html">智能巡逻船控制后台</a>
+			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="navbar-collapse collapse show" id="navbarSupportedContent" style>
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="HomePage.html">首页 <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="CameraPage.html">视频显示</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="MapPage.html">地图显示</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="ChartPage.html">水质数据显示</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<span class="nav-link">Hello World</span>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">退出登录</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="LoginPage.html">登录</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="RegisterPage.html">注册</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container"></div>
+
+
+	<div class="row">
+		<div class="col-lg-10  offset-lg-0">
+			<h3 class="mt-4">Live Streaming</h3>
+			<img src="http://127.0.0.1:8000/start_video?index=0" width="50%">
+		</div>
+	</div>
+
+	<div>
+		<div class="box">
+			<!-- 控制船方向 -->
+			<div class="btnLeft btnArea"
+				style="display: flex;justify-content: center;flex-direction: column;align-items: center;">
+				<div class="btnTop">
+					<button class="btn" onmousedown="clickBtn('up','boat')" onmouseup="releaseMouse('up','boat')">
+						<img src="E:/Code/CppTide/src/http/views/static/img/up.png" alt="">
+					</button>
+				</div>
+				<div class="center">
+					<button class="btn" onmousedown="clickBtn('left','boat')" onmouseup="releaseMouse('left','boat')">
+						<img src="E:/Code/CppTide/src/http/views/static/img/left.png" alt="">
+					</button>
+					<button class="btn" onmousedown="clickBtn('stop','boat')">
+						<img src=" E:/Code/CppTide/src/http/views/static/img/stop.png" alt="">
+					</button>
+					<button class="btn" onmousedown="clickBtn('right','boat')" onmouseup="releaseMouse('right','boat')">
+						<img src="E:/Code/CppTide/src/http/views/static/img/right.png" alt="">
+					</button>
+				</div>
+				<div class="btnBottom">
+					<button class="btn" onmousedown="clickBtn('down','boat')" onmouseup="releaseMouse('down','boat')">
+						<img src="E:/Code/CppTide/src/http/views/static/img/down.png" alt="">
+					</button>
+				</div>
+				<h2>船方向</h2>
+			</div>
+			<!-- 中间按钮 -->
+			<div class="btnCenter">
+				<div class="">当前状态</div>
+				<div style="display: flex;justify-content: center;flex-direction: column;">
+					<span class="btnState">
+						<text>
+							水泵
+						</text>
+						<label class="switch">
+							<input id="engine" type="checkbox" onclick="changeSwitch('engine')">
+							<div class="slider round"></div>
+						</label>
+					</span>
+					<span class="btnState">
+						<text>
+							灯
+						</text>
+						<label class="switch">
+							<input id="light" type="checkbox" onclick="changeSwitch('light')">
+							<div class="slider round"></div>
+						</label>
+				</div>
+			</div>
+			<!-- 控制舵机 -->
+			<div class=" btnLeft btnArea"
+				style="display: flex;justify-content: center;flex-direction: column;align-items: center;">
+				<div class="btnTop">
+					<button class="btn" onmousedown="clickBtn('up','engine')" onmouseup="releaseMouse('up','engine')">
+						<img src="E:/Code/CppTide/src/http/views/static/img/up.png" alt="">
+					</button>
+				</div>
+				<div class="center">
+					<button class="btn" onmousedown="clickBtn('left','boat')" onmouseup="releaseMouse('left','engine')">
+						<img src="E:/Code/CppTide/src/http/views/static/img/left.png" alt="">
+					</button>
+					<button class="btn" onmousedown="clickBtn('stop','engine')">
+						<img src=" E:/Code/CppTide/src/http/views/static/img/stop.png" alt="">
+					</button>
+					<button class="btn" onmousedown="clickBtn('right','boat')"
+						onmouseup="releaseMouse('right','engine')">
+						<img src="E:/Code/CppTide/src/http/views/static/img/right.png" alt="">
+					</button>
+				</div>
+				<div class="btnBottom">
+
+					<button class="btn" onmousedown="clickBtn('down','engine')"
+						onmouseup="releaseMouse('down','engine')">
+						<img src="E:/Code/CppTide/src/http/views/static/img/down.png" alt="">
+					</button>
+
+				</div>
+				<h2>舵机</h2>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script>
+		// 按钮按下
+		function clickBtn(direction, target) {
+
+			// 控制方向
+			if (target == 'boat') {
+				if (direction == 'up') {
+					console.log('控制船向上')
+					$.get("/control/motor_forward_on", function (data, status) {
+						console.log("数据: " + data + "\n状态: " + status);
+					});
+				}
+				if (direction == 'down') {
+					console.log('控制船向下')
+				}
+				if (direction == 'left') {
+					console.log('控制船向左')
+				}
+				if (direction == 'right') {
+					console.log('控制船向右')
+				}
+				if (direction == 'stop') {
+					console.log('停止船')
+				}
+			}
+			// 控制舵机
+			if (target == 'engine') {
+				if (direction == 'up') {
+					console.log('控制舵机向上')
+				}
+				if (direction == 'down') {
+					console.log('控制舵机向下')
+				}
+				if (direction == 'left') {
+					console.log('控制舵机向左')
+				}
+				if (direction == 'right') {
+					console.log('控制舵机向右')
+				}
+				if (direction == 'stop') {
+					console.log('停止舵机')
+				}
+			}
+		}
+
+		// 按钮松开
+		function releaseMouse(direction, target) {
+			// 控制方向
+			if (target == 'boat') {
+				if (direction == 'up') {
+					console.log('松开控制船向上')
+					$.get("/control/motor_stop", function (data, status) {
+						console.log("数据: " + data + "\n状态: " + status);
+					});
+				}
+				if (direction == 'down') {
+					console.log('松开控制船向下')
+				}
+				if (direction == 'left') {
+					console.log('松开控制船向左')
+				}
+				if (direction == 'right') {
+					console.log('松开控制船向右')
+				}
+			}
+			// 控制舵机
+			if (target == 'engine') {
+				if (direction == 'up') {
+					console.log('松开舵机向上')
+				}
+				if (direction == 'down') {
+					console.log('松开舵机向下')
+				}
+				if (direction == 'left') {
+					console.log('松开舵机向左')
+				}
+				if (direction == 'right') {
+					console.log('松开舵机向右')
+				}
+			}
+		}
+
+		// 开关状态改变
+		function changeSwitch(target) {
+			let light = document.querySelector('#light')
+			let engine = document.querySelector('#engine')
+			// 改变水泵
+			if (target == 'engine') {
+				if (engine.checked == true) {
+					console.log('打开水泵')
+				} else {
+					console.log('关闭水泵')
+				}
+			}
+			if (target == 'light') {
+				if (light.checked == true) {
+					console.log('打开灯')
+				} else {
+					console.log('关闭灯')
+				}
+			}
+
+		}
+	</script>
+	<style>
+		.box {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.btn {
+			padding: 0;
+			width: 50px;
+			height: 40px;
+			background-color: transparent;
+			border: none;
+			margin: 5px;
+		}
+
+		.btn:active {
+			opacity: 0.5;
+			transform: translate(0, 5px)
+		}
+
+		.btnCenter {
+			width: 15%;
+		}
+
+		.btnState {
+			margin-top: 10px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: large;
+		}
+
+		/* 一下全是开关样式 */
+		.switch {
+			/* 定义position为relative，子元素的absolute在这里作参照 */
+			position: relative;
+			display: inline-block;
+			width: 60px;
+			height: 34px;
+		}
+
+		.switch input {
+			/* 隐藏input的显示 */
+			display: none;
+		}
+
+		.slider {
+			position: absolute;
+			cursor: pointer;
+			/* 撑满外层的div标签 */
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: #ccc;
+			/* 设置显示时候的动画 */
+			-webkit-transition: .4s;
+			transition: .4s;
+		}
+
+		/* 设置子div前面的元素 */
+
+		.slider:before {
+			position: absolute;
+			/* before的内容为空白 */
+			content: "";
+			height: 26px;
+			width: 26px;
+			left: 4px;
+			bottom: 4px;
+			background-color: white;
+			/* 设置按钮点击的时候的动画效果 */
+			-webkit-transition: .4s;
+			transition: .4s;
+		}
+
+		/* 两个属性同时存在的时候的css样式 */
+
+		input:checked+.slider {
+			background-color: #1296db;
+		}
+
+		input:focus+.slider {
+			box-shadow: 0 0 1px #1296db;
+		}
+
+		/* 设置before元素的平移动画 */
+
+		input:checked+.slider:before {
+			-webkit-transform: translateX(26px);
+			-ms-transform: translateX(26px);
+			transform: translateX(26px);
+		}
+
+		/* 设置下面一组按钮的圆角 */
+
+		.slider.round {
+			border-radius: 34px;
+		}
+
+		.slider.round:before {
+			border-radius: 50%;
+		}
+	</style>
+</body>
+
+</html>

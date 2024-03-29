@@ -1,7 +1,8 @@
 #include "src/common/common.hpp"
 
+#include <chrono>
+#include <random>
 #include <trantor/utils/Logger.h>
-
 
 namespace cpptide::common
 {
@@ -57,6 +58,40 @@ Json::Value parseGPSToJson(const std::string &data)
     root["bd09_lng"]       = bd09_lng; // bd09  longitude
 
     return root;
+}
+
+std::string generateSalt() noexcept
+{
+    std::string salt;
+    unsigned char result[MD5_DIGEST_LENGTH];
+    char md5string[33];
+    std::string str = std::to_string(std::chrono::system_clock::now().time_since_epoch().count());
+    MD5((unsigned char *) str.c_str(), str.length(), result);
+    for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
+        // sprintf(&md5string[i * 2], "%02x", (unsigned int) result[i]);
+        sprintf_s(&md5string[i * 2], 3, "%02x", (unsigned int) result[i]);
+    }
+    salt = md5string;
+    return salt;
+}
+
+std::string generate_verification_code()
+{
+    // 创建随机数引擎
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    // 可以包含数字和字母的字符集
+    const std::string charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const int charset_length  = static_cast<int>(charset.length());
+
+    // 生成四位随机验证码
+    std::string code;
+    for (int i = 0; i < 4; ++i) {
+        code.push_back(charset[gen() % charset_length]);
+    }
+
+    return code;
 }
 
 namespace GpsTransform

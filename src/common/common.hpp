@@ -1,6 +1,7 @@
 #pragma once
 
 #include <json/json.h>
+#include <openssl/md5.h>
 #include <string>
 
 namespace cpptide::common
@@ -10,6 +11,14 @@ namespace cpptide::common
 /// @param data GPS data string
 /// @return Json::Value Json object
 Json::Value parseGPSToJson(const std::string &data);
+
+/// @brief Generate MD5 hash
+/// @return std::string MD5 hash
+std::string generateSalt() noexcept;
+
+/// @brief Generate captcha
+/// @return std::string Captcha
+std::string generate_verification_code();
 
 namespace GpsTransform
 {

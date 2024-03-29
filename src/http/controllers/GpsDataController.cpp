@@ -8,14 +8,41 @@ namespace cpptide::http::controller
 void GpsDataController::getGpsData(const drogon::HttpRequestPtr &req, std::function<void(const drogon::HttpResponsePtr &)> &&callback, size_t count) const
 {
     Json::Value res;
+    Json::Value body;
+    Json::Reader reader;
+
+    std::string bodyStr = req->bodyData();
+    size_t query_count  = count;
+
+    if (count <= 0 && bodyStr.empty()) {
+        res["code"]    = k400BadRequest;
+        res["message"] = "The number of data requested must be greater than 0 and body is empty";
+        auto response  = drogon::HttpResponse::newHttpJsonResponse(res);
+        callback(response);
+        return;
+    }
+
+    if (count <= 0) {
+        try {
+            reader.parse(bodyStr, body);
+            LOG_DEBUG << "bodyStr: " << bodyStr;
+            LOG_DEBUG << "body.toStyledString: " << body.toStyledString();
+            query_count = body["count"].asUInt();
+        } catch (const std::exception &e) {
+            res["code"]    = k400BadRequest;
+            res["message"] = "The number of data requested must be greater than 0";
+            auto response  = drogon::HttpResponse::newHttpJsonResponse(res);
+            callback(response);
+            return;
+        }
+    }
 
     try {
         auto clientPtr = drogon::app().getDbClient();
         drogon::orm::Mapper<drogon_model::ship::Gps> mp(clientPtr);
         size_t cnt = mp.count();
         Json::Value json;
-        size_t query_count = count;
-        if (count > cnt) {
+        if (query_count > cnt) {
             query_count    = cnt;
             res["message"] = "The number of data is less than the requested number";
         }
