@@ -153,13 +153,13 @@ void AsyncSerial::readEnd(const boost::system::error_code &error,
 {
 
     if (error) {
-        /// 如果读操作错误, 则关闭串口, 设置错误
+        /// if an error occurs, close the port and set the error status
         if (isOpen()) {
             doClose();
             setErrorStatus(true);
         }
     } else {
-        /// 如果读取成功, 执行回调并继续监听读
+        /// if no error occurs, call the read callback function
         if (pimpl_->read_callback) {
             pimpl_->read_callback(pimpl_->readBuffer, bytes_transferred);
         }
@@ -170,7 +170,7 @@ void AsyncSerial::readEnd(const boost::system::error_code &error,
 
 void AsyncSerial::doWrite()
 {
-    // 如果写入操作已在进行中，则不执行任何操作
+    /// if the write buffer is empty, then write the write queue to the write buffer
     if (pimpl_->writeBuffer_ == 0) {
         std::lock_guard<std::mutex> l(pimpl_->writeQueueMutex_);
         pimpl_->writeBufferSize_ = pimpl_->writeQueue_.size();
@@ -190,7 +190,7 @@ void AsyncSerial::writeEnd(const boost::system::error_code &error, size_t size)
     if (!error) {
         std::lock_guard<std::mutex> l(pimpl_->writeQueueMutex_);
 
-        /// 如果写入队列为空(写完了), 则清空写缓存
+        /// if the write queue is empty(finished writing), then the write is complete
         if (pimpl_->writeQueue_.empty()) {
             pimpl_->writeBuffer_.reset();
             pimpl_->writeBufferSize_ = 0;
@@ -200,7 +200,7 @@ void AsyncSerial::writeEnd(const boost::system::error_code &error, size_t size)
             return;
         }
 
-        /// 如果写入队列不为空, 则继续写
+        /// if queue is not empty, then write the queue to the write buffer
         pimpl_->writeBufferSize_ = pimpl_->writeQueue_.size();
         pimpl_->writeBuffer_.reset(new char[pimpl_->writeQueue_.size()]);
         std::copy(pimpl_->writeQueue_.begin(), pimpl_->writeQueue_.end(),
@@ -219,11 +219,11 @@ void AsyncSerial::writeEnd(const boost::system::error_code &error, size_t size)
 void AsyncSerial::doClose()
 {
     boost::system::error_code ec;
-    // 将所有未完成的异步读取或写入操作立即完成
+    // Complete any outstanding asynchronous read or write operations immediately
     pimpl_->port_.cancel(ec);
     if (ec)
         setErrorStatus(true);
-    // 关闭串口。任何异步读取或写入操作都将立即取消
+    // Close the serial port. Any asynchronous read or write operations will be canceled immediately
     pimpl_->port_.close(ec);
     if (ec)
         setErrorStatus(true);

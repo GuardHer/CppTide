@@ -38,4 +38,5 @@ def count_code_lines(directory, exclude_dirs=None):
 
 # 指定要计算的目录
 directory_to_scan = "E:\\Code\\CppTide\\src"
-count_code_lines(directory_to_scan)
+exclude_dirs = ["models"]
+count_code_lines(directory_to_scan, exclude_dirs)

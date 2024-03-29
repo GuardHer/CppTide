@@ -8,16 +8,17 @@ namespace cpptide::serial
 class SerialCallback
 {
 public:
-    /// @brief sensor串口读取回调函数
+    /// @brief sensor Serial port reading callback function
     static void sensorReadCallback(const char *data, size_t size);
-    /// @brief sensor串口写入完成回调函数
+    /// @brief sensor Serial port write complete callback function
     static void sensorWriteCompleteCallback(size_t size);
-    /// @brief gps串口读取回调函数
+    /// @brief gps Serial port reading callback function
     static void gpsReadCallback(const char *data, size_t size);
-    /// @brief gps串口写入完成回调函数
+    /// @brief gps Serial port write complete callback function
     static void gpsWriteCompleteCallback(size_t size);
 
 private:
+    /// @brief Constructor and destructor are deleted
     SerialCallback()  = delete;
     ~SerialCallback() = delete;
 };

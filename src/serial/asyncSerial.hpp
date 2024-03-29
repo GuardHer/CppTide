@@ -43,73 +43,73 @@ public:
 
     void open(const std::string &devname, unsigned int baud_rate, const SerialPortOptions &options = SerialPortOptions());
 
-    /// @brief 是否已经打开串口
-    /// @return true: 已经打开, false: 未打开
+    /// @brief Whether the serial port has been opened
+    /// @return true: opened, false: not opened
     bool isOpen() const;
 
-    /// @brief 是否发送错误
-    /// @return
+    /// @brief Whether the serial port has an error
+    /// @return true: error, false: no error
     bool errorStatus() const;
 
-    /// @brief 关闭串口
+    /// @brief Close the serial port
     void close();
 
-    /// @brief 向串口写数据, 添加到写缓存, 使用 io_.post() 将任务（doWrite）添加到 I/O 服务队列
-    /// @param data 写入的数据char *
-    /// @param size 数据长度
+    /// @brief Write data to the serial port, add it to the write cache, use io_.post() to add the task (doWrite) to the I/O service queue
+    /// @param data written data [char *]
+    /// @param size data size
     void write(const char *data, size_t size);
 
-    /// @brief 向串口写数据, 添加到写缓存, 使用 io_.post() 将任务（doWrite）添加到 I/O 服务队列
-    /// @param data 写入的数据vector
+    /// @brief Write data to the serial port, add it to the write cache, use io_.post() to add the task (doWrite) to the I/O service queue
+    /// @param data written data [std::vector<char>]
     void write(const std::vector<char> &data);
 
-    /// @brief 向串口写数据, 添加到写缓存, 使用 io_.post() 将任务（doWrite）添加到 I/O 服务队列
-    /// @param s: 写入的数据string
+    /// @brief Write data to the serial port, add it to the write cache, use io_.post() to add the task (doWrite) to the I/O service queue
+    /// @param s written data [std::string]
     void writeString(const std::string &s);
 
-    /// @brief 设施是否读取
-    /// @param is_read 是否读取
+    /// @brief Whether the serial port is read
+    /// @param is_read Whether to read [true: read, false: not read]
     void setRead(const bool &is_read) { is_read_ = is_read; }
 
-    /// @brief 设施是否写入
-    /// @param is_write 是否写入
+    /// @brief Whether the serial port is write
+    /// @param is_write Whether to write [true: write, false: not write]
     void setWrite(const bool &is_write) { is_write_ = is_write; }
 
 private:
-    /// @brief 向串口读数据
+    /// @brief Read data from serial port
     void doRead();
 
-    /// 读完成回调, 以及开启下一次读
+    /// Read completion callback, and start the next read
     void readEnd(const boost::system::error_code &error,
                  size_t bytes_transferred);
 
-    /// @brief 向串口写数据, 由 I/O 队列线程调用
+    /// @brief Write data to the serial port, called by the I/O queue thread
     void doWrite();
 
-    /// @brief 写完成回调
-    /// @param error
+    /// @brief Write completion callback
+    /// @param error [const boost::system::error_code &] error code
     void writeEnd(const boost::system::error_code &error, size_t size);
 
-    /// @brief 关闭串口
+    /// @brief Close the serial port
     void doClose();
 
 public:
-    /// @brief 设置错误
-    /// @param e 错误
+    /// @brief Set error status
+    /// @param e [bool] error status [true: error, false: no error]
     void setErrorStatus(bool e);
 
-    /// @brief 设置读完成回调
-    /// @param callback 读完成回调
+    /// @brief Set read completion callback
+    /// @param callback read completion callback
     void setReadCallback(const std::function<void(const char *, size_t)> &callback);
 
-    /// @brief 设置写完成回调
-    /// @param callback 写完成回调
+    /// @brief Set write completion callback
+    /// @param callback write completion callback
     void setWriteCompleteCallback(const std::function<void(size_t)> &callback);
 
-    /// @brief 清除读完成回调
+    /// @brief Clear read completion callback
     void clearReadCallback();
 
-    /// @brief 清除写完成回调
+    /// @brief Clear write completion callback
     void clearWriteCompleteCallback();
 
 public:

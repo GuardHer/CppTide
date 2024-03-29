@@ -86,7 +86,7 @@ int main()
     cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
     drogon::app().loadConfigFile("E:\\Code\\CppTide\\config.yaml");
-    // drogon::app().getLoop()->runAfter(0.0, [] { signal(SIGINT, signalHandler); });
+    drogon::app().enableSession(0);
     drogon::app().run();
 
     return 0;

@@ -163,23 +163,20 @@ void V5Lite::detect(cv::Mat &frame)
     auto allocator_info      = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
     Ort::Value input_tensor_ = Ort::Value::CreateTensor<float>(allocator_info, input_image_.data(), input_image_.size(), input_shape_.data(), input_shape_.size());
 
-    // this->output_names[0] = "output";
-    // this->input_names[0]  = "images";
-
-    // 开始推理
+    // start to predict
     std::vector<Ort::Value> ort_outputs = ort_session->Run(Ort::RunOptions { nullptr }, &input_names[0], &input_tensor_, 1, output_names.data(), output_names.size());// 开始推理
     const float *preds                  = ort_outputs[0].GetTensorMutableData<float>();
 
     /////generate proposals
     std::vector<BoxInfo> generate_boxes;
     float ratioh = (float) frame.rows / newh, ratiow = (float) frame.cols / neww;
-    int n = 0, q = 0, i = 0, j = 0, k = 0;///xmin,ymin,xamx,ymax,box_score,class_score
+    int n = 0, q = 0, i = 0, j = 0, k = 0;// xmin,ymin,xamx,ymax,box_score,class_score
     const int nout = this->num_class + 5;
-    for (n = 0; n < 3; n++)///特征图尺度
+    for (n = 0; n < 3; n++)// 3 layers
     {
         int num_grid_x = (int) (this->inpWidth / this->stride[n]);
         int num_grid_y = (int) (this->inpHeight / this->stride[n]);
-        for (q = 0; q < 3; q++)///anchor
+        for (q = 0; q < 3; q++)// anchor
         {
             const float anchor_w = this->anchors[n][q * 2];
             const float anchor_h = this->anchors[n][q * 2 + 1];

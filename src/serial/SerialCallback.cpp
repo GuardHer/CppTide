@@ -12,28 +12,20 @@
 namespace cpptide::serial
 {
 
-#define SET_SENSOR_PROPERTY(root, field, setterFunc)          \
+/// type: Int, Float, Double, String, Bool ...
+#define SET_PROPERTY(root, field, setterFunc, type)           \
     do {                                                      \
         try {                                                 \
-            auto value = root[#field].asFloat();              \
+            auto value = root[#field].as##type();             \
             setterFunc(value);                                \
         } catch (...) {                                       \
             LOG_WARN << "Failed to set " #field " property."; \
-        }                                                     \
-    } while (0)
-
-#define SET_GPS_PROPERTY(root, field, setterFunc)             \
-    do {                                                      \
-        try {                                                 \
-            auto value = root[#field].asString();             \
-            setterFunc(value);                                \
-        } catch (...) {                                       \
-            LOG_WARN << "Failed to set " #field " property."; \
+            setterFunc##ToNull();                             \
         }                                                     \
     } while (0)
 
 
-/// sensor串口读取回调函数
+/// sensor serial read callback
 void SerialCallback::sensorReadCallback(const char *data, size_t size)
 {
     LOG_INFO << "Read data size: " << size;
@@ -57,20 +49,21 @@ void SerialCallback::sensorReadCallback(const char *data, size_t size)
     drogon::orm::Mapper<drogon_model::ship::Sensor> mp(clientPtr);
     drogon_model::ship::Sensor sensor;
 
-    SET_SENSOR_PROPERTY(root, Temperature, sensor.setTemperature);
-    SET_SENSOR_PROPERTY(root, DO, sensor.setDo);
-    SET_SENSOR_PROPERTY(root, phValue, sensor.setOxygen);
-    SET_SENSOR_PROPERTY(root, turbidity, sensor.setTuValue);
+    /// set sensor data
+    SET_PROPERTY(root, Temperature, sensor.setTemperature, Float);// temperature
+    SET_PROPERTY(root, DO, sensor.setDo, Float);                  // dissolved oxygen
+    SET_PROPERTY(root, phValue, sensor.setOxygen, Float);         // phValue
+    SET_PROPERTY(root, turbidity, sensor.setTuValue, Float);      // turbidity
     mp.insert(sensor);
 }
 
-/// sensor串口写入完成回调函数
+/// sensor serial write complete callback
 void SerialCallback::sensorWriteCompleteCallback(size_t size)
 {
     LOG_DEBUG << "sensor Write data size: " << size;
 }
 
-/// gps串口读取回调函数
+/// gps serial read callback
 void SerialCallback::gpsReadCallback(const char *data, size_t size)
 {
     /// 遍历每一行
@@ -79,47 +72,52 @@ void SerialCallback::gpsReadCallback(const char *data, size_t size)
     std::string line;
     std::vector<drogon_model::ship::Gps> gpsVec;
     while (std::getline(iss, line)) {
-        // 判断是不是以$GNGGA开头
+        // check is gps data
         if (line.find("$GNGGA") == std::string::npos) {
             continue;
         }
-
-        // 去掉line末尾的 \n 字符、
+        // remove '\n'
         if (line.back() == '\n') {
             line.pop_back();
         }
         LOG_DEBUG << "Read data: " << line;
 
-
+        /// check is save data
         if (!drogon::app().getPlugin<cpptide::http::plugin::GpsSerialPlugin>()->isSaveData()) {
             // not save data
             return;
         }
+        /// parse gps data
         Json::Value val = common::parseGPSToJson(line);
+        if (val.empty()) {
+            LOG_ERROR << "Failed to parse gps data!";
+            continue;
+        }
         drogon_model::ship::Gps gps;
-        SET_GPS_PROPERTY(val, altitude, gps.setAltitude);
-        SET_GPS_PROPERTY(val, bd09_lat, gps.setBd09Lat);
-        SET_GPS_PROPERTY(val, bd09_lng, gps.setBd09Lng);
-        SET_GPS_PROPERTY(val, gcj02_lat, gps.setGcj02Lat);
-        SET_GPS_PROPERTY(val, gcj02_lng, gps.setGcj02Lng);
-        SET_GPS_PROPERTY(val, wgs84_lat, gps.setWgs84Lat);
-        SET_GPS_PROPERTY(val, wgs84_lng, gps.setWgs84Lng);
-        SET_GPS_PROPERTY(val, horizontal_dil, gps.setHorizontalDil);
-        SET_GPS_PROPERTY(val, num_sats, gps.setNumSats);
-        SET_GPS_PROPERTY(val, gps_qual, gps.setGpsQual);
-        SET_GPS_PROPERTY(val, sj, gps.setSj);
+        SET_PROPERTY(val, altitude, gps.setAltitude, String);           // altitude
+        SET_PROPERTY(val, bd09_lat, gps.setBd09Lat, String);            // bd09_lat
+        SET_PROPERTY(val, bd09_lng, gps.setBd09Lng, String);            // bd09_lng
+        SET_PROPERTY(val, gcj02_lat, gps.setGcj02Lat, String);          // gcj02_lat
+        SET_PROPERTY(val, gcj02_lng, gps.setGcj02Lng, String);          // gcj02_lng
+        SET_PROPERTY(val, wgs84_lat, gps.setWgs84Lat, String);          // wgs84_lat
+        SET_PROPERTY(val, wgs84_lng, gps.setWgs84Lng, String);          // wgs84_lng
+        SET_PROPERTY(val, horizontal_dil, gps.setHorizontalDil, String);// horizontal_dil
+        SET_PROPERTY(val, num_sats, gps.setNumSats, String);            // num_sats
+        SET_PROPERTY(val, gps_qual, gps.setGpsQual, String);            // gps_qual
+        SET_PROPERTY(val, sj, gps.setSj, String);                       // sj
 
         gpsVec.push_back(gps);
     }
 
-    auto clientPtr = drogon::app().getDbClient();
-    drogon::orm::Mapper<drogon_model::ship::Gps> mp(clientPtr);
-    for (auto &gps: gpsVec) {
-        mp.insertFuture(gps);
+    /// save gps data to mysql database
+    auto clientPtr = drogon::app().getDbClient();              // get database client
+    drogon::orm::Mapper<drogon_model::ship::Gps> mp(clientPtr);// get mapper
+    for (auto &gps: gpsVec) {                                  // save data
+        mp.insertFuture(gps);                                  // insert data
     }
 }
 
-/// gps串口写入完成回调函数
+/// gps serial write complete callback
 void SerialCallback::gpsWriteCompleteCallback(size_t size)
 {
     LOG_DEBUG << "gps Write data size: " << size;

@@ -7,9 +7,9 @@ namespace cpptide::common
 {
 
 static const double X_PI = 3.14159265358979323846 * 3000.0 / 180.0;// PI * 3000.0 / 180.0
-static const double PI   = 3.1415926535897932384626;               // 圆周率
-static const double ee   = 0.00669342162296594323;                 // 偏心率平方
-static const double a    = 6378245.0;                              // 长半轴
+static const double PI   = 3.1415926535897932384626;               // PI
+static const double ee   = 0.00669342162296594323;                 // Eccentricity squared
+static const double a    = 6378245.0;                              // WGS-84 major axis
 
 
 Json::Value parseGPSToJson(const std::string &data)
@@ -44,17 +44,17 @@ Json::Value parseGPSToJson(const std::string &data)
     auto bd09_lng  = GpsTransform::dmsToDecimal(std::to_string(bd_pos.longitude));
 
     root["type"]           = tokens[0];// $GNGGA
-    root["sj"]             = tokens[1];// 时间 hhmmss.sss
-    root["gps_qual"]       = tokens[6];// GPS状态 0= 未定位， 1= 非差分定位， 2= 差分定位
-    root["num_sats"]       = tokens[7];// 卫星数量
-    root["horizontal_dil"] = tokens[8];// 水平精度
-    root["altitude"]       = tokens[9];// 海拔 m
-    root["wgs84_lat"]      = wgs84_lat;// wgs84坐标: 纬度 ddmm.mmmm
-    root["wgs84_lng"]      = wgs84_lng;// wgs84坐标: 经度 dddmm.mmmm
-    root["gcj02_lat"]      = gcj02_lat;// gcj02坐标: 纬度 ddmm.mmmm
-    root["gcj02_lng"]      = gcj02_lng;// gcj02坐标: 经度 ddmm.mmmm
-    root["bd09_lat"]       = bd09_lat; // bd09坐标: 纬度 ddmm.mmmm
-    root["bd09_lng"]       = bd09_lng; // bd09坐标: 经度 ddmm.mmmm
+    root["sj"]             = tokens[1];// time hhmmss.sss
+    root["gps_qual"]       = tokens[6];// GPS status 0: invalid, 1: GPS, 2: DGPS
+    root["num_sats"]       = tokens[7];// statellite number
+    root["horizontal_dil"] = tokens[8];// horizontal accuracy
+    root["altitude"]       = tokens[9];// altitude [m]
+    root["wgs84_lat"]      = wgs84_lat;// wgs84 latitude
+    root["wgs84_lng"]      = wgs84_lng;// wgs84 longitude
+    root["gcj02_lat"]      = gcj02_lat;// gcj02 latitude
+    root["gcj02_lng"]      = gcj02_lng;// gcj02 longitude
+    root["bd09_lat"]       = bd09_lat; // bd09  latitude
+    root["bd09_lng"]       = bd09_lng; // bd09  longitude
 
     return root;
 }
@@ -64,13 +64,13 @@ namespace GpsTransform
 
 std::string dmsToDecimal(const std::string &dms)
 {
-    // 从字符串中解析度、分的部分
+    // Parse the resolution and points part from the string
     double data    = stod(dms);
     int degrees    = static_cast<int>(data / 100);
     int minutes    = static_cast<int>(data) % 100;
     double seconds = (data - degrees * 100 - minutes) * 60.0;
 
-    // 将分钟转换为小数度，并拼接成易读的形式
+    // Convert the DMS to decimal degrees
     double decimalDegrees = degrees + minutes / 60.0 + seconds / 3600.0;
     return std::to_string(decimalDegrees);
 }

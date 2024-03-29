@@ -43,6 +43,7 @@ file(GLOB HTTP_SRC "${PROJECT_SOURCE_DIR}/src/http/controllers/*.c*"
 	"${PROJECT_SOURCE_DIR}/src/http/models/*.c*"
 	"${PROJECT_SOURCE_DIR}/src/http/plugins/*.c*"
 	"${PROJECT_SOURCE_DIR}/src/http/advice/*.c*"
+	"${PROJECT_SOURCE_DIR}/src/http/views/*.cpp"
 )
 
 # serial 源文件
