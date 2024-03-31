@@ -12,7 +12,7 @@ class GpsDataController : public drogon::HttpController<GpsDataController>
 {
 public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(GpsDataController::getGpsData, "/control/gps/data?count={1}", drogon::Get);
+    ADD_METHOD_TO(GpsDataController::getGpsData, "/cpptide/control/gps/data?count={1}", drogon::Get);
     METHOD_LIST_END
 
 private:

@@ -13,7 +13,7 @@ class MotorController : public drogon::HttpController<MotorController>
 {
 public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(MotorController::directionController, "/control/motor/{1}", drogon::Get);
+    ADD_METHOD_TO(MotorController::directionController, "/cpptide/control/motor/{1}", drogon::Get);
     METHOD_LIST_END
 
 public:

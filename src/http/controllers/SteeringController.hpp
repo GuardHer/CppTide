@@ -14,7 +14,7 @@ class SteeringController : public drogon::HttpController<SteeringController>
 {
 public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(SteeringController::directionController, "/control/steering/{1}", drogon::Get);
+    ADD_METHOD_TO(SteeringController::directionController, "/cpptide/control/steering/{1}", drogon::Get);
     METHOD_LIST_END
 
 public:

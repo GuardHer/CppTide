@@ -14,8 +14,8 @@ public:
     // use METHOD_ADD to add your custom processing function here;
     // METHOD_ADD(BtnController::get, "/{2}/{1}", Get); // path is /cpptide/http/controller/BtnController/{arg2}/{arg1}
     // METHOD_ADD(BtnController::your_method_name, "/{1}/{2}/list", Get); // path is /cpptide/http/controller/BtnController/{arg1}/{arg2}/list
-    ADD_METHOD_TO(BtnController::getBtnStateData, "/control/button/data", Get);                       // path is /absolute/path/{arg1}/{arg2}/list
-    ADD_METHOD_TO(BtnController::changeBtnState, "/control/button/change?target={1}&status={2}", Get);// path is /absolute/path/{arg1}/{arg2}/list
+    ADD_METHOD_TO(BtnController::getBtnStateData, "/cpptide/control/button/data", Get);                       // path is /absolute/path/{arg1}/{arg2}/list
+    ADD_METHOD_TO(BtnController::changeBtnState, "/cpptide/control/button/change?target={1}&status={2}", Get);// path is /absolute/path/{arg1}/{arg2}/list
 
     METHOD_LIST_END
     // your declaration of processing function maybe like this:

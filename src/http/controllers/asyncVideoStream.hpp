@@ -22,8 +22,8 @@ public:
     // use METHOD_ADD to add your custom processing function here;
     // METHOD_ADD(AsyncVideoStream::get, "/{2}/{1}", Get); // path is /AsyncVideoStream/{arg2}/{arg1}
     // METHOD_ADD(AsyncVideoStream::your_method_name, "/{1}/{2}/list", Get); // path is /AsyncVideoStream/{arg1}/{arg2}/list
-    ADD_METHOD_TO(AsyncVideoStream::startVideoStream, "/start_video?index={1}", drogon::Get);// path is /absolute/path/{arg1}/{arg2}/list
-    ADD_METHOD_TO(AsyncVideoStream::stopVideoStream, "/stop_video", drogon::Get);            // path is /absolute/path/{arg1}/{arg2}/list
+    ADD_METHOD_TO(AsyncVideoStream::startVideoStream, "/cpptide/start_video?index={1}", drogon::Get);// path is /absolute/path/{arg1}/{arg2}/list
+    ADD_METHOD_TO(AsyncVideoStream::stopVideoStream, "/cpptide/stop_video", drogon::Get);            // path is /absolute/path/{arg1}/{arg2}/list
 
     METHOD_LIST_END
     // your declaration of processing function maybe like this:

@@ -11,8 +11,8 @@ class DeviceController : public drogon::HttpController<DeviceController>
 {
 public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(DeviceController::lightController, "/control/light/{1}", drogon::Get);
-    ADD_METHOD_TO(DeviceController::pumpController, "/control/pump/{1}", drogon::Get);
+    ADD_METHOD_TO(DeviceController::lightController, "/cpptide/control/light/{1}", drogon::Get);
+    ADD_METHOD_TO(DeviceController::pumpController, "/cpptide/control/pump/{1}", drogon::Get);
     METHOD_LIST_END
 
 private:

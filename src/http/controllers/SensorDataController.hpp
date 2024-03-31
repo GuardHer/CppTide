@@ -13,7 +13,7 @@ class SensorDataController : public drogon::HttpController<SensorDataController>
 {
 public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(SensorDataController::getSensorData, "/control/sensor/data?count={1}", drogon::Get);
+    ADD_METHOD_TO(SensorDataController::getSensorData, "/cpptide/control/sensor/data?count={1}", drogon::Get);
     METHOD_LIST_END
 
 private:
