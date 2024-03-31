@@ -357,6 +357,14 @@ plugins:
       interval: 5                  # 定时器间隔 s
       updateBoatControlData: false # 是否更新船控数据
 
+  # redis 设置
+  - name: "cpptide::http::plugin::RedisPlugin"
+    dependencies: []
+    config:
+      host: "139.224.250.45"
+      port: 6379
+      passwd: "tang044438"
+
 # custom_config: custom configuration for users. This object can be get by the app().getCustomConfig() method. 
 # custom_config:
 #   realm: drogonRealm

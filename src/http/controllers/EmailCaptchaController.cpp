@@ -41,6 +41,7 @@ void EmailCaptchaController::emailCaptcha(const HttpRequestPtr &req, std::functi
         mapper.update(code);
     } catch (const drogon::orm::DrogonDbException &e) {
         mapper.insert(emailCaptcha);
+        LOG_TRACE << e.base().what();
     }
     json["captcha"] = captcha;
     json["message"] = "Captcha has been sent to your email: " + captcha;

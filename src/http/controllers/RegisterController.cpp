@@ -22,6 +22,7 @@ void RegisterController::registerUser(const HttpRequestPtr &req, std::function<v
         json["error"] = "User already exists";
         LOG_DEBUG << "User already exists";
     } catch (const drogon::orm::DrogonDbException &e) {
+        LOG_TRACE << e.base().what();
         // Check if the email is valid
         try {
             // find the email in the email_captcha table
@@ -49,6 +50,7 @@ void RegisterController::registerUser(const HttpRequestPtr &req, std::function<v
             LOG_DEBUG << "User registered: " << email;
 
         } catch (const drogon::orm::DrogonDbException &e) {
+            LOG_TRACE << e.base().what();
             // not found
             json["error"] = "Email not found, please request a captcha first";
             LOG_DEBUG << "Email not found";

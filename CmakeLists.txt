@@ -21,6 +21,8 @@ find_package(Drogon CONFIG REQUIRED)
 find_package(Boost REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(hiredis CONFIG REQUIRED)
+find_package(redis++ CONFIG REQUIRED)
 
 # find_package(Boost REQUIRED COMPONENTS program_options system filesystem)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -37,21 +39,24 @@ set(Onnxruntime_Libs
 )
 
 # common 源文件
-file(GLOB COMMON_SRC "${PROJECT_SOURCE_DIR}/src/common/*.c*")
+file(GLOB COMMON_SRC "${PROJECT_SOURCE_DIR}/src/common/*.cpp")
 
 # http 源文件
-file(GLOB HTTP_SRC "${PROJECT_SOURCE_DIR}/src/http/controllers/*.c*"
-	"${PROJECT_SOURCE_DIR}/src/http/models/*.c*"
-	"${PROJECT_SOURCE_DIR}/src/http/plugins/*.c*"
-	"${PROJECT_SOURCE_DIR}/src/http/advice/*.c*"
+file(GLOB HTTP_SRC "${PROJECT_SOURCE_DIR}/src/http/controllers/*.cpp"
+	"${PROJECT_SOURCE_DIR}/src/http/models/*.cpp"
+	"${PROJECT_SOURCE_DIR}/src/http/plugins/*.cpp"
+	"${PROJECT_SOURCE_DIR}/src/http/advice/*.cpp"
 	"${PROJECT_SOURCE_DIR}/src/http/views/*.cpp"
 )
 
 # serial 源文件
-file(GLOB SERIAL_SRC "${PROJECT_SOURCE_DIR}/src/serial/*.c*")
+file(GLOB SERIAL_SRC "${PROJECT_SOURCE_DIR}/src/serial/*.cpp")
 
 # yolov5 源文件
-file(GLOB YOLOV5_SRC "${PROJECT_SOURCE_DIR}/src/v5lite/*.c*")
+file(GLOB YOLOV5_SRC "${PROJECT_SOURCE_DIR}/src/v5lite/*.cpp")
+
+# database 源文件
+file(GLOB DATABASE_SRC "${PROJECT_SOURCE_DIR}/src/databases/*.cpp")
 
 # 源文件
 set(SRC
@@ -59,6 +64,7 @@ set(SRC
 	${SERIAL_SRC}
 	${YOLOV5_SRC}
 	${COMMON_SRC}
+	${DATABASE_SRC}
 )
 
 # libs
@@ -72,6 +78,8 @@ target_link_libraries(main PRIVATE Drogon::Drogon)
 target_link_libraries(main PRIVATE Boost::boost)
 target_link_libraries(main PRIVATE yaml-cpp::yaml-cpp)
 target_link_libraries(main PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(main PRIVATE hiredis::hiredis)
+target_link_libraries(main PRIVATE redis++::redis++)
 target_link_libraries(main PRIVATE ${LIBS})
 
 # add_executable(testV5Lite ${CMAKE_CURRENT_SOURCE_DIR}/test/v5lite/testV5Lite.cpp)
