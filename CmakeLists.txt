@@ -76,3 +76,8 @@ target_link_libraries(main PRIVATE ${LIBS})
 
 # add_executable(testV5Lite ${CMAKE_CURRENT_SOURCE_DIR}/test/v5lite/testV5Lite.cpp)
 # target_link_libraries(testV5Lite PRIVATE ${LIBS})
+
+# 添加测试子目录
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
+enable_testing()
+add_test(NAME MyTest COMMAND redisTest)
