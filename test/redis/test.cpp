@@ -19,9 +19,9 @@ int main()
 {
     // 创建Redis连接对象
     ConnectionOptions connectionOptions;
-    connectionOptions.host     = "139.224.250.45";
-    connectionOptions.port     = 6379;
-    connectionOptions.password = "tang044438";// 如果设置了密码，替换为实际密码
+    connectionOptions.host     = "xxxx";
+    connectionOptions.port     = xxxx;
+    connectionOptions.password = "xxxx";
 
     Redis redis(connectionOptions);
 
