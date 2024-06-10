@@ -1,0 +1,5 @@
+"filename", "language", "CMake", "C++", "comment", "blank", "total"
+"e:\Code\CppTide\test\CMakeLists.txt", "CMake", 9, 0, 0, 3, 12
+"e:\Code\CppTide\test\redis\test.cpp", "C++", 0, 85, 12, 15, 112
+"e:\Code\CppTide\test\v5lite\testV5Lite.cpp", "C++", 0, 238, 25, 33, 296
+"Total", "-", 9, 323, 37, 51, 420

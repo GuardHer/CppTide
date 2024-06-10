@@ -1,0 +1,155 @@
+Date : 2024-06-10 15:33:35
+Directory : e:\Code\CppTide\src
+Total : 106 files,  110249 codes, 11332 comments, 18853 blanks, all 140434 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |          5 |     72,034 |     10,433 |     12,956 |     95,423 |
+| CSS        |          4 |     22,293 |         21 |      4,770 |     27,084 |
+| C++        |         81 |     14,024 |        825 |        947 |     15,796 |
+| HTML       |         14 |      1,814 |         18 |        176 |      2,008 |
+| JSON       |          1 |         79 |         29 |          0 |        108 |
+| CMake      |          1 |          5 |          6 |          4 |         15 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                  | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                     |        106 |    110,249 |     11,332 |     18,853 |    140,434 |
+| common                                                                |          3 |        201 |         27 |         54 |        282 |
+| databases                                                             |          2 |         28 |         20 |         16 |         64 |
+| http                                                                  |         92 |    109,253 |     11,181 |     18,625 |    139,059 |
+| http\advice                                                           |          2 |         82 |         13 |         19 |        114 |
+| http\controllers                                                      |         26 |        999 |        123 |        220 |      1,342 |
+| http\models                                                           |         13 |     10,401 |        420 |        334 |     11,155 |
+| http\plugins                                                          |         12 |        305 |        127 |        125 |        557 |
+| http\test                                                             |          2 |         26 |         11 |         11 |         48 |
+| http\views                                                            |         37 |     97,440 |     10,487 |     17,916 |    125,843 |
+| http\views (Files)                                                    |         14 |      1,299 |         15 |         14 |      1,328 |
+| http\views\static                                                     |          9 |     94,327 |     10,454 |     17,726 |    122,507 |
+| http\views\static\bootstrap                                           |          2 |     15,876 |         14 |      3,414 |     19,304 |
+| http\views\static\css                                                 |          2 |      6,417 |          7 |      1,356 |      7,780 |
+| http\views\static\echarts                                             |          2 |     71,892 |     10,381 |     12,946 |     95,219 |
+| http\views\static\jquery                                              |          1 |          1 |          1 |          0 |          2 |
+| http\views\static\js                                                  |          1 |         40 |          6 |          3 |         49 |
+| http\views\static\map                                                 |          1 |        101 |         45 |          7 |        153 |
+| http\views\templates                                                  |         14 |      1,814 |         18 |        176 |      2,008 |
+| serial                                                                |          5 |        418 |         65 |         91 |        574 |
+| v5lite                                                                |          4 |        349 |         39 |         67 |        455 |
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                              | language   | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| e:\Code\CppTide\src\common\common.cpp                                 | C++        |        170 |         10 |         32 |        212 |
+| e:\Code\CppTide\src\common\common.hpp                                 | C++        |         27 |         17 |         20 |         64 |
+| e:\Code\CppTide\src\common\config.hpp                                 | C++        |          4 |          0 |          2 |          6 |
+| e:\Code\CppTide\src\databases\RedisClient.cpp                         | C++        |          4 |          0 |          2 |          6 |
+| e:\Code\CppTide\src\databases\RedisClient.hpp                         | C++        |         24 |         20 |         14 |         58 |
+| e:\Code\CppTide\src\http\advice\HttpAdvice.cpp                        | C++        |         59 |          3 |         10 |         72 |
+| e:\Code\CppTide\src\http\advice\HttpAdvice.hpp                        | C++        |         23 |         10 |          9 |         42 |
+| e:\Code\CppTide\src\http\controllers\AsyncVideoStream.cpp             | C++        |         75 |          9 |         18 |        102 |
+| e:\Code\CppTide\src\http\controllers\AsyncVideoStream.hpp             | C++        |         33 |          5 |         12 |         50 |
+| e:\Code\CppTide\src\http\controllers\BoatController.cpp               | C++        |        119 |          4 |         17 |        140 |
+| e:\Code\CppTide\src\http\controllers\BoatController.hpp               | C++        |         72 |         27 |         22 |        121 |
+| e:\Code\CppTide\src\http\controllers\BtnController.cpp                | C++        |         46 |          1 |          8 |         55 |
+| e:\Code\CppTide\src\http\controllers\BtnController.hpp                | C++        |         16 |          5 |          7 |         28 |
+| e:\Code\CppTide\src\http\controllers\DeviceController.cpp             | C++        |         70 |          0 |         10 |         80 |
+| e:\Code\CppTide\src\http\controllers\DeviceController.hpp             | C++        |         17 |          8 |          7 |         32 |
+| e:\Code\CppTide\src\http\controllers\EmailCaptchaController.cpp       | C++        |         44 |          2 |          8 |         54 |
+| e:\Code\CppTide\src\http\controllers\EmailCaptchaController.hpp       | C++        |         14 |          5 |          7 |         26 |
+| e:\Code\CppTide\src\http\controllers\GpsDataController.cpp            | C++        |         74 |          1 |          7 |         82 |
+| e:\Code\CppTide\src\http\controllers\GpsDataController.hpp            | C++        |         16 |          3 |          6 |         25 |
+| e:\Code\CppTide\src\http\controllers\LoginController.cpp              | C++        |         54 |         10 |         13 |         77 |
+| e:\Code\CppTide\src\http\controllers\LoginController.hpp              | C++        |         17 |          7 |          8 |         32 |
+| e:\Code\CppTide\src\http\controllers\LogoutController.cpp             | C++        |          9 |          0 |          3 |         12 |
+| e:\Code\CppTide\src\http\controllers\LogoutController.hpp             | C++        |         14 |          5 |          7 |         26 |
+| e:\Code\CppTide\src\http\controllers\MotorController.cpp              | C++        |         48 |          2 |          5 |         55 |
+| e:\Code\CppTide\src\http\controllers\MotorController.hpp              | C++        |         16 |          5 |          7 |         28 |
+| e:\Code\CppTide\src\http\controllers\RegisterController.cpp           | C++        |         56 |          6 |          5 |         67 |
+| e:\Code\CppTide\src\http\controllers\RegisterController.hpp           | C++        |         14 |          5 |          7 |         26 |
+| e:\Code\CppTide\src\http\controllers\SensorDataController.cpp         | C++        |         43 |          0 |          4 |         47 |
+| e:\Code\CppTide\src\http\controllers\SensorDataController.hpp         | C++        |         16 |          3 |          7 |         26 |
+| e:\Code\CppTide\src\http\controllers\SteeringController.cpp           | C++        |         60 |          2 |          4 |         66 |
+| e:\Code\CppTide\src\http\controllers\SteeringController.hpp           | C++        |         16 |          5 |          7 |         28 |
+| e:\Code\CppTide\src\http\controllers\TestCtrl.cpp                     | C++        |         26 |          1 |          7 |         34 |
+| e:\Code\CppTide\src\http\controllers\TestCtrl.hpp                     | C++        |         14 |          2 |          7 |         23 |
+| e:\Code\CppTide\src\http\models\BtnState.cpp                          | C++        |      1,309 |          6 |         23 |      1,338 |
+| e:\Code\CppTide\src\http\models\BtnState.hpp                          | C++        |        232 |         53 |         22 |        307 |
+| e:\Code\CppTide\src\http\models\Control.cpp                           | C++        |      1,917 |          6 |         27 |      1,950 |
+| e:\Code\CppTide\src\http\models\Control.hpp                           | C++        |        292 |         69 |         36 |        397 |
+| e:\Code\CppTide\src\http\models\EmailCaptcha.cpp                      | C++        |        877 |          8 |         23 |        908 |
+| e:\Code\CppTide\src\http\models\EmailCaptcha.hpp                      | C++        |        189 |         41 |         22 |        252 |
+| e:\Code\CppTide\src\http\models\Gps.cpp                               | C++        |      2,353 |         17 |         40 |      2,410 |
+| e:\Code\CppTide\src\http\models\Gps.hpp                               | C++        |        333 |         77 |         40 |        450 |
+| e:\Code\CppTide\src\http\models\Sensor.cpp                            | C++        |      1,157 |          6 |         22 |      1,185 |
+| e:\Code\CppTide\src\http\models\Sensor.hpp                            | C++        |        217 |         49 |         26 |        292 |
+| e:\Code\CppTide\src\http\models\User.cpp                              | C++        |      1,229 |         10 |         27 |      1,266 |
+| e:\Code\CppTide\src\http\models\User.hpp                              | C++        |        217 |         49 |         26 |        292 |
+| e:\Code\CppTide\src\http\models\model.json                            | JSON       |         79 |         29 |          0 |        108 |
+| e:\Code\CppTide\src\http\plugins\GpsSerialPlugin.cpp                  | C++        |         41 |         12 |         12 |         65 |
+| e:\Code\CppTide\src\http\plugins\GpsSerialPlugin.hpp                  | C++        |         26 |         15 |         12 |         53 |
+| e:\Code\CppTide\src\http\plugins\OpencvPlugin.cpp                     | C++        |         23 |          7 |          9 |         39 |
+| e:\Code\CppTide\src\http\plugins\OpencvPlugin.hpp                     | C++        |         22 |          9 |         12 |         43 |
+| e:\Code\CppTide\src\http\plugins\RedisPlugin.cpp                      | C++        |         21 |          7 |          6 |         34 |
+| e:\Code\CppTide\src\http\plugins\RedisPlugin.hpp                      | C++        |         24 |         19 |         12 |         55 |
+| e:\Code\CppTide\src\http\plugins\SensorSerialPlugin.cpp               | C++        |         42 |         11 |         10 |         63 |
+| e:\Code\CppTide\src\http\plugins\SensorSerialPlugin.hpp               | C++        |         28 |         15 |         12 |         55 |
+| e:\Code\CppTide\src\http\plugins\TimerPlugin.cpp                      | C++        |         16 |          7 |          7 |         30 |
+| e:\Code\CppTide\src\http\plugins\TimerPlugin.hpp                      | C++        |         20 |          9 |         10 |         39 |
+| e:\Code\CppTide\src\http\plugins\YOLOPlugin.cpp                       | C++        |         21 |          7 |         11 |         39 |
+| e:\Code\CppTide\src\http\plugins\YOLOPlugin.hpp                       | C++        |         21 |          9 |         12 |         42 |
+| e:\Code\CppTide\src\http\test\CMakeLists.txt                          | CMake      |          5 |          6 |          4 |         15 |
+| e:\Code\CppTide\src\http\test\test_main.cc                            | C++        |         21 |          5 |          7 |         33 |
+| e:\Code\CppTide\src\http\views\Base.cpp                               | C++        |         88 |          1 |          1 |         90 |
+| e:\Code\CppTide\src\http\views\Base.hpp                               | C++        |          8 |          1 |          1 |         10 |
+| e:\Code\CppTide\src\http\views\CameraPage.cpp                         | C++        |        394 |          1 |          1 |        396 |
+| e:\Code\CppTide\src\http\views\CameraPage.hpp                         | C++        |          8 |          1 |          1 |         10 |
+| e:\Code\CppTide\src\http\views\ChartPage.cpp                          | C++        |        180 |          1 |          1 |        182 |
+| e:\Code\CppTide\src\http\views\ChartPage.hpp                          | C++        |          8 |          1 |          1 |         10 |
+| e:\Code\CppTide\src\http\views\HomePage.cpp                           | C++        |        119 |          2 |          1 |        122 |
+| e:\Code\CppTide\src\http\views\HomePage.hpp                           | C++        |          8 |          1 |          1 |         10 |
+| e:\Code\CppTide\src\http\views\LoginPage.cpp                          | C++        |        117 |          1 |          1 |        119 |
+| e:\Code\CppTide\src\http\views\LoginPage.hpp                          | C++        |          8 |          1 |          1 |         10 |
+| e:\Code\CppTide\src\http\views\MapPage.cpp                            | C++        |        215 |          1 |          1 |        217 |
+| e:\Code\CppTide\src\http\views\MapPage.hpp                            | C++        |          8 |          1 |          1 |         10 |
+| e:\Code\CppTide\src\http\views\RegisterPage.cpp                       | C++        |        130 |          1 |          1 |        132 |
+| e:\Code\CppTide\src\http\views\RegisterPage.hpp                       | C++        |          8 |          1 |          1 |         10 |
+| e:\Code\CppTide\src\http\views\static\bootstrap\bootstrap.min.css     | CSS        |      6,410 |          7 |      1,355 |      7,772 |
+| e:\Code\CppTide\src\http\views\static\bootstrap\bootstrap@4.6.min.css | CSS        |      9,466 |          7 |      2,059 |     11,532 |
+| e:\Code\CppTide\src\http\views\static\css\init.css                    | CSS        |          3 |          0 |          0 |          3 |
+| e:\Code\CppTide\src\http\views\static\css\map.css                     | CSS        |      6,414 |          7 |      1,356 |      7,777 |
+| e:\Code\CppTide\src\http\views\static\echarts\echarts.js              | JavaScript |     71,889 |     10,341 |     12,943 |     95,173 |
+| e:\Code\CppTide\src\http\views\static\echarts\echarts.min.js          | JavaScript |          3 |         40 |          3 |         46 |
+| e:\Code\CppTide\src\http\views\static\jquery\jquery.3.6.min.js        | JavaScript |          1 |          1 |          0 |          2 |
+| e:\Code\CppTide\src\http\views\static\js\register.js                  | JavaScript |         40 |          6 |          3 |         49 |
+| e:\Code\CppTide\src\http\views\static\map\coordtransform_utils.js     | JavaScript |        101 |         45 |          7 |        153 |
+| e:\Code\CppTide\src\http\views\templates\Base.csp                     | HTML       |         53 |          0 |          4 |         57 |
+| e:\Code\CppTide\src\http\views\templates\Base.html                    | HTML       |         53 |          0 |          4 |         57 |
+| e:\Code\CppTide\src\http\views\templates\CameraPage.csp               | HTML       |        325 |          3 |         35 |        363 |
+| e:\Code\CppTide\src\http\views\templates\CameraPage.html              | HTML       |        325 |          3 |         35 |        363 |
+| e:\Code\CppTide\src\http\views\templates\ChartPage.csp                | HTML       |        137 |          2 |         10 |        149 |
+| e:\Code\CppTide\src\http\views\templates\ChartPage.html               | HTML       |        137 |          2 |         10 |        149 |
+| e:\Code\CppTide\src\http\views\templates\HomePage.csp                 | HTML       |         65 |          0 |          5 |         70 |
+| e:\Code\CppTide\src\http\views\templates\HomePage.html                | HTML       |         65 |          0 |          5 |         70 |
+| e:\Code\CppTide\src\http\views\templates\LoginPage.csp                | HTML       |         77 |          0 |          9 |         86 |
+| e:\Code\CppTide\src\http\views\templates\LoginPage.html               | HTML       |         77 |          0 |          9 |         86 |
+| e:\Code\CppTide\src\http\views\templates\MapPage.csp                  | HTML       |        159 |          4 |         17 |        180 |
+| e:\Code\CppTide\src\http\views\templates\MapPage.html                 | HTML       |        159 |          4 |         17 |        180 |
+| e:\Code\CppTide\src\http\views\templates\RegisterPage.csp             | HTML       |         91 |          0 |          8 |         99 |
+| e:\Code\CppTide\src\http\views\templates\RegisterPage.html            | HTML       |         91 |          0 |          8 |         99 |
+| e:\Code\CppTide\src\serial\AsyncSerial.cpp                            | C++        |        217 |         10 |         33 |        260 |
+| e:\Code\CppTide\src\serial\AsyncSerial.hpp                            | C++        |         62 |         31 |         30 |        123 |
+| e:\Code\CppTide\src\serial\SerialBase.hpp                             | C++        |         29 |          3 |          7 |         39 |
+| e:\Code\CppTide\src\serial\SerialCallback.cpp                         | C++        |         94 |         16 |         16 |        126 |
+| e:\Code\CppTide\src\serial\SerialCallback.hpp                         | C++        |         16 |          5 |          5 |         26 |
+| e:\Code\CppTide\src\v5lite\MultiVideoCapture.cpp                      | C++        |         69 |          1 |         13 |         83 |
+| e:\Code\CppTide\src\v5lite\MultiVideoCapture.hpp                      | C++        |         25 |         17 |         14 |         56 |
+| e:\Code\CppTide\src\v5lite\V5Lite.cpp                                 | C++        |        192 |         12 |         27 |        231 |
+| e:\Code\CppTide\src\v5lite\V5Lite.hpp                                 | C++        |         63 |          9 |         13 |         85 |
+| Total                                                                 |            |    110,249 |     11,332 |     18,853 |    140,434 |
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+

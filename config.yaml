@@ -318,7 +318,7 @@ plugins:
   - name: "cpptide::http::plugin::SensorSerialPlugin"
     dependencies: []
     config:
-      is_open: true          # 是否打开串口
+      is_open: false          # 是否打开串口
       is_read: true          # 是否读取数据
       is_write: true         # 是否写入数据
       is_save_data: true   # 是否保存数据
@@ -336,7 +336,7 @@ plugins:
   - name: "cpptide::http::plugin::GpsSerialPlugin"
     dependencies: []
     config:
-      is_open: true       # 是否打开串口
+      is_open: false       # 是否打开串口
       is_read: true        # 是否读取数据
       is_write: false      # 是否写入数据
       is_save_data: true   # 是否保存数据

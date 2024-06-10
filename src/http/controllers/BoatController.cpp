@@ -38,7 +38,7 @@ BoatController::Direction BoatController::stringToDirection(const std::string &d
 
     // 比较转换后的字符串
     if (lowerDirection == "forward") {
-        return Direction::FORWARD;
+        return Direction::FORWARD; // 前进
     } else if (lowerDirection == "backward") {
         return Direction::BACKWARD;
     } else if (lowerDirection == "left") {
